@@ -1,0 +1,47 @@
+<div class="wrapper">
+    <div class="form-group first">
+      <h4 for="">Dosing ID</h4>
+      <select class="form-control" name="" id="" [(ngModel)]="selectedID" (change)="onChangeID()">
+        <option *ngFor="let id of ids" [value]="id">{{id}}</option>
+      </select>
+    
+      <label>Sort by:</label>
+      <ng-multiselect-dropdown
+        [placeholder]="'Properties'"
+        [settings]="dropdownSettings"
+        [data]="loggingProps"
+        [(ngModel)]="selectedItems"
+        (onSelect)="onItemSelect($event)"
+        (onSelectAll)="onSelectAll($event)"
+        (onItemDeSelect)="onItemDeSelect($event)">
+    </ng-multiselect-dropdown>
+    </div>
+    
+    <div class="second">
+      <table class="stattable">
+          <th>
+            <h5>Stats:</h5>
+          </th>
+          <th style="padding-right: 100px;">
+
+          </th>
+          <tr>
+              <td>Type of dosing:</td><td style="padding-left: 10px;">{{typeofdosing}}</td>
+              <td>Setpoint:</td><td style="padding-left: 10px;">{{setpoint}}</td>
+          </tr>
+          <tr>
+            <td>Accuracy:</td><td style="padding-left: 10px;">{{accuracy}}</td>
+            <td>Dosed weight:</td><td style="padding-left: 10px;">{{dosedweight}}</td>
+        </tr>
+        <tr>
+            <td>Max:</td><td style="padding-left: 10px;">{{setpointMax}}</td>
+            <td>Min:</td><td style="padding-left: 10px;">{{setpointMin}}</td>
+        </tr>
+      </table>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 12%;">
+    <div echarts [options]="ChartOptions" class="demo-chart"></div>
+</div>
+    

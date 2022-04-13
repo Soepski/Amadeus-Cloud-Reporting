@@ -17,7 +17,6 @@ describe('DosingDetailsComponent', () => {
     fixture = TestBed.createComponent(DosingDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    
   });
 
   it('should create', () => {

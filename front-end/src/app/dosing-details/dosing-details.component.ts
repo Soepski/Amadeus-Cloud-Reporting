@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { LoggingViewModel } from '../models/Logging';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-dosing-details',
@@ -24,8 +25,9 @@ export class DosingDetailsComponent implements OnInit {
   ChartOptions: any;
   ids: number[] = [];
   selectedID!: number;
+  closeResult = '';
  
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private modalService: NgbModal) { }
 
   
   public async ngOnInit(){
@@ -167,6 +169,24 @@ export class DosingDetailsComponent implements OnInit {
         }
       ]
     };
+  }
+
+  open(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
   getLoading(){

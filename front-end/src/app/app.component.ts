@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  title = 'Amadeus-Cloud-Reporting';
+  title = 'Amadeus Cloud Reporting';
  
   constructor() { }
 

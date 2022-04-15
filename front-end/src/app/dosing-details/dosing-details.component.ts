@@ -26,6 +26,11 @@ export class DosingDetailsComponent implements OnInit {
   ids: number[] = [];
   selectedID!: number;
   closeResult = '';
+  filterCustomer?: string;
+  filterPlant?: string;
+  filterDateFrom?: Date;
+  filterDateUntil?: Date;
+
  
   constructor(private dataService: DataService, private modalService: NgbModal) { }
 

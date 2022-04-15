@@ -63,36 +63,33 @@
     <form>
       <div class="mb-3">
         <label for="dateOfBirth">Customer</label>
+        {{filterCustomer}}
         <div class="input-group">
-          <select class="form-control">
+          <select [(ngModel)]="filterCustomer" class="form-control">
             <option value="" disabled selected>Select your option</option>
             <option>Customer 1</option>
             <option>Customer 2</option>
           </select>
         </div>
         <label for="dateOfBirth">Plant</label>
+        {{filterPlant}}
         <div class="input-group">
-          <select class="form-control">
+          <select [(ngModel)]="filterPlant" class="form-control">
             <option value="" disabled selected>Select your option</option>
             <option>Plant 1</option>
             <option>Plant 2</option>
           </select>
         </div>
-        <div class="input-group">
-          <select class="form-control">
-            <option value="" disabled selected>Select your option</option>
-            <option>Machine 1</option>
-            <option>Machine 2</option>
-          </select>
-        </div>
         <label for="dataFrom">Date from</label>
+        {{filterDateFrom}}
         <div class="input-group">
-          <input id="dataFrom" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <input [(ngModel)]="filterDateFrom" id="dataFrom" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
           <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
         </div>
         <label for="dateUntil">Date until</label>
+        {{filterDateUntil}}
         <div class="input-group">
-          <input id="dateUntil" class="form-control" placeholder="yyyy-mm-dd" name="dp1" ngbDatepicker #dp1="ngbDatepicker">
+          <input [(ngModel)]="filterDateUntil" id="dateUntil" class="form-control" placeholder="yyyy-mm-dd" name="dp1" ngbDatepicker #dp1="ngbDatepicker">
           <button class="btn btn-outline-secondary calendar" (click)="dp1.toggle()" type="button"></button>
         </div>
       </div>

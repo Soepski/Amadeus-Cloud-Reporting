@@ -1,4 +1,4 @@
-export interface LoggingViewModel {
+export interface Logging {
         loggingDbid: number;
         proportioningDbid: number;
         c3DesiredCrankPosition: number | null;

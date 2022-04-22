@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
-import { LoggingViewModel } from '../models/Logging';
+import { Logging } from '../models/Logging';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -10,7 +10,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 })
 export class DosingDetailsComponent implements OnInit {
 
-  loggings: LoggingViewModel[] = [];
+  loggings: Logging[] = [];
   loggingProps: String[] = [];
   selectedItems: string[] = [];
   dropdownSettings = {};
@@ -36,6 +36,7 @@ export class DosingDetailsComponent implements OnInit {
 
   
   public async ngOnInit(){
+    //Get all customers
     await this.getIDs();
 
     this.dropdownSettings= {
@@ -48,6 +49,24 @@ export class DosingDetailsComponent implements OnInit {
       allowSearchFilter: true
     };
   }
+
+  onChangeCustomer(event?: any){
+    if(this.filterCustomer != null && this.filterPlant == null && this.filterDateFrom == null && this.filterDateUntil == null)
+    {
+      //Query get customer information
+    }
+    this.filterCustomer = event;
+  }
+
+  onChangePlant(event?: any){
+    this.filterPlant = event;
+    if(this.filterPlant != null && this.filterDateFrom == null && this.filterDateUntil == null)
+    {
+      //Get dosings from customer and plant
+    }
+  }
+
+  
 
   public async onChangeID() {
     this.getLoading();
@@ -148,7 +167,7 @@ export class DosingDetailsComponent implements OnInit {
           },
           
           // prettier-ignore
-          data: this.loggings.map(c => c[this.selectedItems[0] as keyof LoggingViewModel])
+          data: this.loggings.map(c => c[this.selectedItems[0] as keyof Logging])
         },
         {
           name: this.selectedItems[1], //NetWeight
@@ -159,7 +178,7 @@ export class DosingDetailsComponent implements OnInit {
             width: 1
           },
           // prettier-ignore
-          data: this.loggings.map(c => c[this.selectedItems[1] as keyof LoggingViewModel])
+          data: this.loggings.map(c => c[this.selectedItems[1] as keyof Logging])
         },
         {
           name: this.selectedItems[2], //Iets
@@ -170,7 +189,7 @@ export class DosingDetailsComponent implements OnInit {
             width: 1
           },
           // prettier-ignore
-          data: this.loggings.map(c => c[this.selectedItems[2] as keyof LoggingViewModel])
+          data: this.loggings.map(c => c[this.selectedItems[2] as keyof Logging])
         }
       ]
     };

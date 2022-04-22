@@ -13,6 +13,7 @@ import { DosingsGeneralComponent } from './dosings-general/dosings-general.compo
 import { NavbarComponent } from './navbar/navbar.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,8 +30,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     }),
     NgMultiSelectDropDownModule.forRoot(),
     FormsModule,
-    NgbModule
-    
+    NgbModule   
   ],
   providers: [],
   bootstrap: [AppComponent]

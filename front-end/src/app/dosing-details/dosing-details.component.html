@@ -65,8 +65,8 @@
         <label for="dateOfBirth">Customer</label>
         {{filterCustomer}}
         <div class="input-group">
-          <select [(ngModel)]="filterCustomer" class="form-control">
-            <option value="" disabled selected>Select your option</option>
+          <select [(ngModel)]="filterCustomer" name="filterCustomer" (ngModelChange)="onChangeCustomer($event)" class="form-control">
+            <option value="" disabled selected>Select customer</option>
             <option>Customer 1</option>
             <option>Customer 2</option>
           </select>
@@ -74,8 +74,8 @@
         <label for="dateOfBirth">Plant</label>
         {{filterPlant}}
         <div class="input-group">
-          <select [(ngModel)]="filterPlant" class="form-control">
-            <option value="" disabled selected>Select your option</option>
+          <select [(ngModel)]="filterPlant" name="filterPlant" (ngModelChange)="onChangePlant($event)" class="form-control">
+            <option value="" disabled selected>Select customer first</option>
             <option>Plant 1</option>
             <option>Plant 2</option>
           </select>

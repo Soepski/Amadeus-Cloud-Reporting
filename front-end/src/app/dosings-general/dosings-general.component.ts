@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoggingViewModel } from '../models/Logging';
+import { Logging } from '../models/Logging';
 import { DataService } from '../data.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { DataService } from '../data.service';
 })
 export class DosingsGeneralComponent implements OnInit {
 
-  loggings: LoggingViewModel[] = [];
+  loggings: Logging[] = [];
   ChartOptions: any;
   totaldosings: number = 0;
   totaldosedweight: number = 0;

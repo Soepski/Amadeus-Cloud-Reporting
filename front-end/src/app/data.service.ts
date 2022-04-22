@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { LoggingViewModel } from './models/Logging';
+import { Observable, Observer } from 'rxjs';
+import { Logging } from './models/Logging';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +9,18 @@ import { LoggingViewModel } from './models/Logging';
 export class DataService {
 
   constructor(private http: HttpClient) { }
+  //General
   private readonly baseURL = "https://localhost:44397/";
+
+  //Data
   private readonly getAllIDs = this.baseURL + "Data/all";
   private readonly getLoggingURL = this.baseURL + "Data/get/";
   private readonly getDosingFinalsURL = this.baseURL + "Data/get/finals";
+
+  //Customers
+  private readonly getCustomersURL = this.baseURL + "Customers/all";
+  private readonly getCustomerPerIDURL = this.baseURL + "Customers/";
+  private readonly getCustomerPlantsURL = this.baseURL + "Customers/id/plants";
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'}),
@@ -22,11 +30,12 @@ export class DataService {
     return this.http.get<number[]>(this.getAllIDs);
   }
 
-  public getLoggings(id: number): Observable<LoggingViewModel[]>{
-    return this.http.get<LoggingViewModel[]>(this.getLoggingURL + id);
+  public getLoggings(id: number): Observable<Logging[]>{
+    return this.http.get<Logging[]>(this.getLoggingURL + id);
   }
 
-  public getDosinFinals(): Observable<LoggingViewModel[]>{
-    return this.http.get<LoggingViewModel[]>(this.getDosingFinalsURL);
+  public getDosinFinals(): Observable<Logging[]>{
+    return this.http.get<Logging[]>(this.getDosingFinalsURL);
   }
+
 }

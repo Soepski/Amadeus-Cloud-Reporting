@@ -1,4 +1,8 @@
-﻿using Amadeus_Cloud_Reporting_Back_end.Models;
+﻿using Amadeus_Cloud_Reporting_Back_end.Logic;
+using Amadeus_Cloud_Reporting_Back_end.Models;
+using Amadeus_Cloud_Reporting_Back_end.Models.ViewModels;
+using Amadeus_Cloud_Reporting_Back_end.Repositories;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,18 +14,25 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
 {
     public class CustomerController : Controller
     {
+        private readonly CustomerLogic _logic;
+
+        public CustomerController(ICustomerRepo customerrepo, IMapper mapper)
+        {
+            _logic = new CustomerLogic(customerrepo, mapper);
+        }
+
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<List<int>>> GetCustomers()
         {
             try
             {
-                ICollection<Customer> ids = _logic.GetIDs();
-                return Ok(ids);
+                ICollection<CustomerViewModel> customers = _logic.GetCustomers();
+                return Ok(customers);
             }
             catch (Exception ex)
             {
-                return this.Content(ex.Message + " while getting logging ids");
+                return this.Content(ex.Message + " while getting customer");
             }
         }
 
@@ -29,8 +40,15 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
         [Route("{id}")]
         public async Task<ActionResult<List<Customer>>> GetCustomerByID(int id)
         {
-
-            return Ok();
+            try
+            {
+                CustomerViewModel customer = _logic.GetCustomerByID(id);
+                return Ok(customer);
+            }
+            catch (Exception ex)
+            {
+                return this.Content(ex.Message + " while getting customer by id");
+            }
         }
     }
 }

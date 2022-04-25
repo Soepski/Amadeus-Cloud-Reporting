@@ -17,11 +17,6 @@ export class DataService {
   private readonly getLoggingURL = this.baseURL + "Data/get/";
   private readonly getDosingFinalsURL = this.baseURL + "Data/get/finals";
 
-  //Customers
-  private readonly getCustomersURL = this.baseURL + "Customers/all";
-  private readonly getCustomerPerIDURL = this.baseURL + "Customers/";
-  private readonly getCustomerPlantsURL = this.baseURL + "Customers/id/plants";
-
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'}),
   }

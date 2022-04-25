@@ -18,7 +18,15 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<List<Plant>>> GetPlantByCustomerID(int id)
+        public async Task<ActionResult<List<Plant>>> GetPlantsByCustomerID(int id)
+        {
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("{customerid}/Plant/{plantid}")]
+        public async Task<ActionResult<List<Plant>>> GetPlantByCustomerID(int customerid, int plantid)
         {
 
             return Ok();

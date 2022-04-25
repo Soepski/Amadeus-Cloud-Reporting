@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace Amadeus_Cloud_Reporting_Back_end.Controllers
 {
+    [Route("[controller]")]
+    [ApiController]
     public class CustomerController : Controller
     {
         private readonly CustomerLogic _logic;

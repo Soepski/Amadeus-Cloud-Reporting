@@ -38,12 +38,12 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public async Task<ActionResult<List<LoggingViewModel>>> GetLoggings(int id)
+        public async Task<ActionResult<List<PlantViewModel>>> GetLoggings(int id)
         {
 
             try
             {
-                ICollection<LoggingViewModel> loggingViewModels = _logic.GetLoggings(id);
+                ICollection<PlantViewModel> loggingViewModels = _logic.GetLoggings(id);
                 return Ok(loggingViewModels);
             }
             catch (Exception ex)
@@ -54,11 +54,11 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
 
         [HttpGet]
         [Route("get/finals")]
-        public async Task<ActionResult<List<LoggingViewModel>>> GetDosingFinals()
+        public async Task<ActionResult<List<PlantViewModel>>> GetDosingFinals()
         {
             try
             {
-                ICollection<LoggingViewModel> loggingViewModels = _logic.GetDosingFinals();
+                ICollection<PlantViewModel> loggingViewModels = _logic.GetDosingFinals();
                 return Ok(loggingViewModels);
             }
             catch (Exception ex)

@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace Amadeus_Cloud_Reporting_Back_end
 {
-    public partial class LoggingViewModel
+    public partial class PlantViewModel
     {
         public int LoggingDbid { get; set; }
         public int ProportioningDbid { get; set; }

@@ -25,7 +25,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
             return ids;
         }
 
-        public ICollection<LoggingViewModel> GetLoggings(int id)
+        public ICollection<PlantViewModel> GetLoggings(int id)
         {
 
             ICollection<Logging> loggings = _repo.GetLoggings(id);
@@ -77,15 +77,15 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
                 }
 
             }
-            ICollection<LoggingViewModel> loggingViewModels = _mapper.Map<ICollection<LoggingViewModel>>(loggings);
+            ICollection<PlantViewModel> loggingViewModels = _mapper.Map<ICollection<PlantViewModel>>(loggings);
 
             return loggingViewModels;
         }
 
-        public ICollection<LoggingViewModel> GetDosingFinals()
+        public ICollection<PlantViewModel> GetDosingFinals()
         {
             ICollection<Logging> loggings = _repo.GetDosingFinals();
-            ICollection<LoggingViewModel> loggingViewModels = _mapper.Map<ICollection<LoggingViewModel>>(loggings);
+            ICollection<PlantViewModel> loggingViewModels = _mapper.Map<ICollection<PlantViewModel>>(loggings);
 
             return loggingViewModels;
         }

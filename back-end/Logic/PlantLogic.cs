@@ -20,11 +20,20 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
             _mapper = mapper;
         }
 
-        public ICollection<Models.ViewModels.PlantViewModel> GetPlants()
+        public ICollection<PlantViewModel> GetPlants()
         {
 
             ICollection<Plant> plants = _repo.GetPlants();
-            ICollection<Models.ViewModels.PlantViewModel> plantViewModels = _mapper.Map<ICollection<Models.ViewModels.PlantViewModel>>(plants);
+            ICollection<PlantViewModel> plantViewModels = _mapper.Map<ICollection<PlantViewModel>>(plants);
+
+            return plantViewModels;
+        }
+
+        public ICollection<PlantViewModel> GetPlantsByCustomerID(int id)
+        {
+
+            ICollection<Plant> plants = _repo.GetPlantsByCustomerID(id);
+            ICollection<PlantViewModel> plantViewModels = _mapper.Map<ICollection<PlantViewModel>>(plants);
 
             return plantViewModels;
         }

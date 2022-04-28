@@ -9,6 +9,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
     public interface IPlantRepo
     {
         public List<Plant> GetPlants();
-        public Plant GetPlantByCustomerID(int id);
+        public List<Plant> GetPlantsByCustomerID(int id);
+        public Plant GetPlantByID(int id);
     }
 }

@@ -24,11 +24,11 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<ActionResult<List<Plant>>> GetPlants()
+        public async Task<ActionResult<List<PlantViewModel>>> GetPlants()
         {
             try
             {
-                ICollection<Models.ViewModels.PlantViewModel> plants = _logic.GetPlants();
+                ICollection<PlantViewModel> plants = _logic.GetPlants();
                 return Ok(plants);
             }
             catch (Exception ex)

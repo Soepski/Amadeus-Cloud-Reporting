@@ -13,7 +13,11 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
             throw new NotImplementedException();
         }
 
-        public Plant GetPlantByCustomerID(int id)
+        public List<Plant> GetPlantsByCustomerID(int id)
+        {
+            throw new NotImplementedException();
+        }
+        public Plant GetPlantByID(int id)
         {
             throw new NotImplementedException();
         }

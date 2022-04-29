@@ -19,7 +19,8 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
             _repo = repo;
             _mapper = mapper;
         }
-
+        
+        //Get all plants
         public ICollection<PlantViewModel> GetPlants()
         {
 
@@ -29,6 +30,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
             return plantViewModels;
         }
 
+        //Get plants from specific customer 
         public ICollection<PlantViewModel> GetPlantsByCustomerID(int id)
         {
 

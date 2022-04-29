@@ -20,6 +20,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
             _mapper = mapper;
         }
 
+        //Get all customers
         public ICollection<CustomerViewModel> GetCustomers()
         {
 
@@ -29,6 +30,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
             return customerViewModels;
         }
 
+        //Get specific customer per ID
         public CustomerViewModel GetCustomerByID(int id)
         {
             Customer customer = _repo.GetCustomerByID(id);

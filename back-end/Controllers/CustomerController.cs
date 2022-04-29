@@ -23,6 +23,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
             _logic = new CustomerLogic(customerrepo, mapper);
         }
 
+        //Get all customers
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<List<int>>> GetCustomers()
@@ -38,6 +39,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
             }
         }
 
+        //Get specific customer inforamtion by ID
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<List<Customer>>> GetCustomerByID(int id)

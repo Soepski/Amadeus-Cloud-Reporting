@@ -22,6 +22,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
             _logic = new PlantLogic(plantrepo, mapper);
         }
 
+        //Get all plants from all sides and all customers
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<List<PlantViewModel>>> GetPlants()
@@ -37,6 +38,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
             }
         }
 
+        //Get all plants from a specific customer
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<List<Plant>>> GetPlantsByCustomerID(int id)

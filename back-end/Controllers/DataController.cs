@@ -21,6 +21,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
             _logic = new DataLogic(datarepo, mapper);
         }
 
+        //Get all the IDs from all dosings
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<List<int>>> GetIDs()
@@ -36,6 +37,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
             }
         }
 
+        //Get all the loggings from a specific dosing
         [HttpGet]
         [Route("get/{id}")]
         public async Task<ActionResult<List<PlantViewModel>>> GetLoggings(int id)
@@ -52,6 +54,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
             }
         }
 
+        //Get the end stats of a dosing
         [HttpGet]
         [Route("get/finals")]
         public async Task<ActionResult<List<PlantViewModel>>> GetDosingFinals()

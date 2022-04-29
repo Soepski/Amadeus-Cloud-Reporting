@@ -65,7 +65,6 @@ export class DosingDetailsComponent implements OnInit {
       //Get dosings from customer and plant
     }
   }
-
   
 
   public async onChangeID() {
@@ -194,6 +193,7 @@ export class DosingDetailsComponent implements OnInit {
       ]
     };
   }
+
 
   open(content: any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {

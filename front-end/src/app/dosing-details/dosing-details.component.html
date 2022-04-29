@@ -53,6 +53,7 @@
     </div>
 </div>
 
+
 <div class="col-md-12" style="margin-top: 12%;">
     <div echarts [options]="ChartOptions" class="demo-chart"></div>
 </div>
@@ -111,12 +112,12 @@
   <div class="modal-body">
     <form>
       <div class="mb-3">
-        <label for="props">Properties</label>
         <div class="form-group">
           <div class="row">
              <div class="col-4" *ngFor="let prop of loggingProps; let index = index">
+              <label>
                 <input type="checkbox" value="prop">
-                <label>{{prop}}</label>
+                {{prop}}</label>
              </div>
           </div>
        </div>

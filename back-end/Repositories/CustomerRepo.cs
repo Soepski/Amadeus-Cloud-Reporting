@@ -14,11 +14,13 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
             _context = context;
         }
 
+        //Get customer by ID
         public Customer GetCustomerByID(int id)
         {
             throw new NotImplementedException();
         }
 
+        //Gets all customers
         public List<Customer> GetCustomers()
         {
             //return _context.Customer.Select(i => i.Name).ToList();

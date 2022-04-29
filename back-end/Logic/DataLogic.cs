@@ -17,6 +17,8 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
             _repo = repo;
             _mapper = mapper;
         }
+
+        //Get dosing IDs
         public ICollection<int> GetIDs()
         {
 
@@ -25,6 +27,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
             return ids;
         }
 
+        //Get logging data from specific dosing
         public ICollection<PlantViewModel> GetLoggings(int id)
         {
 
@@ -82,6 +85,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
             return loggingViewModels;
         }
 
+        //Get the final results from all dosings
         public ICollection<PlantViewModel> GetDosingFinals()
         {
             ICollection<Logging> loggings = _repo.GetDosingFinals();

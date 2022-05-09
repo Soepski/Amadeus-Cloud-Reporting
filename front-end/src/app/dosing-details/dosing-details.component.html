@@ -114,10 +114,10 @@
       <div class="mb-3">
         <div class="form-group">
           <div class="row">
-             <div class="col-4" *ngFor="let prop of loggingProps; let index = index">
+             <div class="col-4" *ngFor="let prop of checkboxList; let index = index">
               <label>
-                <input type="checkbox" value="prop">
-                {{prop}}</label>
+                <input (click)="checkboxClick(prop)" [checked]="prop.isChecked" type="checkbox" value="prop">
+                {{prop.name}}</label>
              </div>
           </div>
        </div>

@@ -68,6 +68,12 @@ export class DosingDetailsComponent implements OnInit {
       //Get dosings from customer and plant
     }
   }
+
+  onChangeSearch(event: any){
+
+    console.log(event.target.value);
+
+  }
   
   public checkboxClick(prop: CheckboxItem){
 

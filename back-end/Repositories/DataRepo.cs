@@ -17,17 +17,17 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
         }
         public ICollection<int> GetIDs()
         {
-            return _context.Loggings.Select(i => i.ProportioningDbid).Distinct().ToList();
+            return _context.AmadeusLoggings.Select(i => i.ProportioningDbid).Distinct().ToList();
         }
-        public ICollection<Logging> GetLoggings(int id)
+        public ICollection<AmadeusLogging> GetLoggings(int id)
         {
-            ICollection<Logging> loggings = _context.Loggings.Where(i => i.ProportioningDbid == id).ToList();
+            ICollection<AmadeusLogging> loggings = _context.AmadeusLoggings.Where(i => i.ProportioningDbid == id).ToList();
             return loggings.OrderBy(o => o.LoggingDbid).ToList();
         }
 
-        public ICollection<Logging> GetDosingFinals()
+        public ICollection<AmadeusLogging> GetDosingFinals()
         {
-            var loggings = _context.Loggings;
+            var loggings = _context.AmadeusLoggings;
 
             var query =
                 from d in loggings.Select(m => new { m.ProportioningDbid }).Distinct()

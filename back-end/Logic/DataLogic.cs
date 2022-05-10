@@ -31,8 +31,8 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
         public ICollection<PlantViewModel> GetLoggings(int id)
         {
 
-            ICollection<Logging> loggings = _repo.GetLoggings(id);
-            foreach (Logging logging in loggings)
+            ICollection<AmadeusLogging> loggings = _repo.GetLoggings(id);
+            foreach (AmadeusLogging logging in loggings)
             {
                 if (logging.IfNetWeight1 < 0)
                 {
@@ -88,7 +88,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
         //Get the final results from all dosings
         public ICollection<PlantViewModel> GetDosingFinals()
         {
-            ICollection<Logging> loggings = _repo.GetDosingFinals();
+            ICollection<AmadeusLogging> loggings = _repo.GetDosingFinals();
             ICollection<PlantViewModel> loggingViewModels = _mapper.Map<ICollection<PlantViewModel>>(loggings);
 
             return loggingViewModels;

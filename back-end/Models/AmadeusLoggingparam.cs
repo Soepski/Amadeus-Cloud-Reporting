@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace Amadeus_Cloud_Reporting_Back_end
 {
-    public partial class Loggingparam
+    public partial class AmadeusLoggingparam
     {
         public int LoggingparamDbid { get; set; }
         public float? C1Gain { get; set; }
@@ -47,5 +47,8 @@ namespace Amadeus_Cloud_Reporting_Back_end
         public int? PlantActualTorque { get; set; }
         public int? PlantTemperature { get; set; }
         public int? PlantMoisture { get; set; }
+        public int? ProportioningDbid { get; set; }
+
+        public virtual AmadeusProportioning ProportioningDb { get; set; }
     }
 }

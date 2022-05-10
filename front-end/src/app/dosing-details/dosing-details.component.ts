@@ -3,6 +3,11 @@ import { DataService } from '../data.service';
 import { Logging } from '../models/Logging';
 import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { CheckboxItem } from '../models/CheckboxItem';
+import { NgModule, enableProdMode } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { DxSelectBoxModule, DxListModule, DxTemplateModule } from 'devextreme-angular';
+import DataSource from 'devextreme/data/data_source';
 
 @Component({
   selector: 'app-dosing-details',
@@ -15,7 +20,6 @@ export class DosingDetailsComponent implements OnInit {
   loggingProps: String[] = [];
   selectedItems: String[] = [];
   checkboxList: Array<any> = [];
-  dropdownSettings = {};
   typeofdosing!: string;
   setpoint!: number | null;
   setpointMin!: number | null;
@@ -30,9 +34,11 @@ export class DosingDetailsComponent implements OnInit {
   closeResult = '';
   filterCustomer?: string;
   filterPlant?: string;
-  filterDateFrom?: Date;
-  filterDateUntil?: Date;
+  filterDateFrom!: Date;
+  filterDateUntil!: Date;
   timeArray?: Array<number>;
+  searchExpr: string = "";
+  searchMode: Array<any> = [];
 
  
   constructor(private dataService: DataService, private modalService: NgbModal) { }
@@ -41,16 +47,7 @@ export class DosingDetailsComponent implements OnInit {
   public async ngOnInit(){
     //Get all customers
     await this.getIDs();
-
-    this.dropdownSettings= {
-      maxHeight: 300,
-      enableCheckAll: false,
-      singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      itemsShowLimit: 4,
-      allowSearchFilter: true
-    };
+    
   }
 
   public onChangeCustomer(event?: any){

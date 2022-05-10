@@ -3,11 +3,12 @@
   <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.css" />
 </head>
-<!-- <div class="modalbutton">
-  <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Adjust filter</button>
-</div> -->
 
 <div class="wrapper">
+  <div class="modalbuttonfilter">
+    <button class="btn btn-outline-primary" (click)="open(content)">Adjust filter</button>
+  </div>
+
     <div class="form-group first">
       <h4 for="">Dosing ID</h4>
       <select class="form-control" name="" id="" [(ngModel)]="selectedID" (change)="onChangeID()">
@@ -15,18 +16,9 @@
       </select>
     
       <label>Sort by:</label>
-      <div class="modalbutton">
-        <button class="btn btn-lg btn-outline-primary" (click)="open(sort)">Adjust sorting</button>
+      <div class="modalbuttonsorting">
+        <button class="btn btn-outline-primary" (click)="open(sort)">Adjust sorting</button>
       </div>
-        <!-- <ng-multiselect-dropdown
-            [placeholder]="'Properties'"
-            [settings]="dropdownSettings"
-            [data]="loggingProps"
-            [(ngModel)]="selectedItems"
-            (onSelect)="onItemSelect($event)"
-            (onSelectAll)="onSelectAll($event)"
-            (onItemDeSelect)="onItemDeSelect($event)">
-        </ng-multiselect-dropdown> -->
     </div>
     
     <div class="second">
@@ -67,7 +59,6 @@
     <form>
       <div class="mb-3">
         <label for="dateOfBirth">Customer</label>
-        {{filterCustomer}}
         <div class="input-group">
           <select [(ngModel)]="filterCustomer" name="filterCustomer" (ngModelChange)="onChangeCustomer($event)" class="form-control">
             <option value="" disabled selected>Select customer</option>
@@ -76,7 +67,6 @@
           </select>
         </div>
         <label for="dateOfBirth">Plant</label>
-        {{filterPlant}}
         <div class="input-group">
           <select [(ngModel)]="filterPlant" name="filterPlant" (ngModelChange)="onChangePlant($event)" class="form-control">
             <option value="" disabled selected>Select customer first</option>
@@ -85,16 +75,12 @@
           </select>
         </div>
         <label for="dataFrom">Date from</label>
-        {{filterDateFrom}}
         <div class="input-group">
-          <input [(ngModel)]="filterDateFrom" id="dataFrom" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
-          <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          <input [(ngModel)]="filterDateFrom" type="date" id="dataFrom" class="form-control" required pattern="\d{4}-\d{2}-\d{2}" placeholder="dd-mm-yyyy" name="dp" ngbDatepicker #dp="ngbDatepicker">
         </div>
         <label for="dateUntil">Date until</label>
-        {{filterDateUntil}}
         <div class="input-group">
-          <input [(ngModel)]="filterDateUntil" id="dateUntil" class="form-control" placeholder="yyyy-mm-dd" name="dp1" ngbDatepicker #dp1="ngbDatepicker">
-          <button class="btn btn-outline-secondary calendar" (click)="dp1.toggle()" type="button"></button>
+          <input [(ngModel)]="filterDateUntil" type="date" id="dateUntil" class="form-control" placeholder="dd-mm-yyyy" name="dp1" ngbDatepicker #dp1="ngbDatepicker">
         </div>
       </div>
     </form>
@@ -106,33 +92,30 @@
 
 <ng-template #sort let-modal>
   <div class="modal-header">
-    <h1 class="modal-title" id="modal-basic-title">Adjust sorting</h1>
+    <h2 class="modal-title" id="modal-basic-title">Adjust sorting</h2>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-          </svg>
-        </span>
+    <div class="list-container">
+      <dx-list
+        #list
+        [dataSource]="checkboxList"
+        [height]="500"
+        [searchEnabled]="true"
+        searchExpr="name"
+        searchMode="contains"
+        pageLoadMode="scrollBottom"
+      >
+      <hr/>
+      <div class="row">
+        <div class="col-4" *dxTemplate="let data of 'item' let index = index">
+          <label>
+            <input (click)="checkboxClick(data)" [checked]="data.isChecked" type="checkbox" value="data">
+            {{data.name}}</label>
+        </div>
       </div>
-      <input type="text" class="form-control" (change)="onChangeSearch($event)" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1">
+      </dx-list>
     </div>
-    <form>
-      <div class="mb-3">
-        <div class="form-group">
-          <div class="row">
-             <div class="col-4" *ngFor="let prop of checkboxList; let index = index">
-              <label>
-                <input (click)="checkboxClick(prop)" [checked]="prop.isChecked" type="checkbox" value="prop">
-                {{prop.name}}</label>
-             </div>
-          </div>
-       </div>
-      </div>
-    </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>

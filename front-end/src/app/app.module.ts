@@ -11,6 +11,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { DosingDetailsComponent } from './dosing-details/dosing-details.component';
 import { DosingsGeneralComponent } from './dosings-general/dosings-general.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { DxSelectBoxModule, DxListModule, DxTemplateModule } from 'devextreme-angular';
 
 
 
@@ -30,7 +31,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     }),
     NgMultiSelectDropDownModule.forRoot(),
     FormsModule,
-    NgbModule   
+    NgbModule,
+    DxSelectBoxModule,
+    DxListModule,
+    DxTemplateModule  
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -8,7 +8,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
     public interface IDataRepo
     {
         public ICollection<int> GetIDs();
-        public ICollection<Logging> GetLoggings(int id);
-        public ICollection<Logging> GetDosingFinals();
+        public ICollection<AmadeusLogging> GetLoggings(int id);
+        public ICollection<AmadeusLogging> GetDosingFinals();
     }
 }

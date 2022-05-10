@@ -10,7 +10,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Profiles
     {
         public DataProfile()
         {
-            CreateMap<Logging, PlantViewModel>().ReverseMap();
+            CreateMap<AmadeusLogging, PlantViewModel>().ReverseMap();
         }
     }
 }

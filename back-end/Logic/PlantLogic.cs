@@ -21,13 +21,12 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
         }
         
         //Get all plants
-        public ICollection<PlantViewModel> GetPlants()
+        public ICollection<int> GetPlantIDs()
         {
 
-            ICollection<Plant> plants = _repo.GetPlants();
-            ICollection<PlantViewModel> plantViewModels = _mapper.Map<ICollection<PlantViewModel>>(plants);
+            ICollection<int> ids = _repo.GetPlantIDs();
 
-            return plantViewModels;
+            return ids;
         }
 
         //Get plants from specific customer 

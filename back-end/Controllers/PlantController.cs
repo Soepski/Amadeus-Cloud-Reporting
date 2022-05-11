@@ -25,12 +25,12 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
         //Get all plants from all sides and all customers
         [HttpGet]
         [Route("all")]
-        public async Task<ActionResult<List<PlantViewModel>>> GetPlants()
+        public async Task<ActionResult<List<int>>> GetPlantIDs()
         {
             try
             {
-                ICollection<PlantViewModel> plants = _logic.GetPlants();
-                return Ok(plants);
+                ICollection<int> ids = _logic.GetPlantIDs();
+                return Ok(ids);
             }
             catch (Exception ex)
             {

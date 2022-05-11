@@ -7,7 +7,6 @@ namespace Amadeus_Cloud_Reporting_Back_end.Models
 {
     public class Plant
     {
-        public string name { get; set; }
         public int ID { get; set; }
     }
 }

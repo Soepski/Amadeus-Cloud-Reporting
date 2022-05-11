@@ -8,10 +8,16 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
 {
     public class PlantRepo : IPlantRepo
     {
-        //Get all plants from all customers
-        public List<Plant> GetPlants()
+        private readonly AmadeusDBContext _context;
+        public PlantRepo(AmadeusDBContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        //Get all plants from all customers
+        public List<int> GetPlantIDs()
+        {
+            return _context.AmadeusProportioningrecords.Select(i => i.Proportioninglocation).Distinct().ToList();
         }
 
         //Get plants from a specific customer

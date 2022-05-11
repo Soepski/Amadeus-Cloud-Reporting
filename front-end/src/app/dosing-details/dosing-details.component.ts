@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
+import { PlantService } from '../plant.service';
 import { Logging } from '../models/Logging';
 import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { CheckboxItem } from '../models/CheckboxItem';
@@ -30,10 +31,13 @@ export class DosingDetailsComponent implements OnInit {
   dosedweightMin!: number | null;
   ChartOptions: any;
   ids: number[] = [];
+  plantids: number[] = [];
   selectedID!: number;
+  selectedPlantID!: number;
   closeResult = '';
-  filterCustomer?: string;
-  filterPlant?: string;
+  filterCustomer!: string;
+  filterPlant!: string;
+  filterArticle!: string;
   filterDateFrom!: Date;
   filterDateUntil!: Date;
   timeArray?: Array<number>;
@@ -41,22 +45,23 @@ export class DosingDetailsComponent implements OnInit {
   searchMode: Array<any> = [];
 
  
-  constructor(private dataService: DataService, private modalService: NgbModal) { }
+  constructor(private dataService: DataService, private plantService: PlantService, private modalService: NgbModal) { }
 
   
   public async ngOnInit(){
     //Get all customers
     await this.getIDs();
-    
+    //All plant IDS
+    await this.getPlantIDs();   
   }
 
-  public onChangeCustomer(event?: any){
-    if(this.filterCustomer != null && this.filterPlant == null && this.filterDateFrom == null && this.filterDateUntil == null)
-    {
-      //Query get customer information
-    }
-    this.filterCustomer = event;
-  }
+  // public onChangeCustomer(event?: any){
+  //   if(this.filterCustomer != null && this.filterPlant == null && this.filterDateFrom == null && this.filterDateUntil == null)
+  //   {
+  //     //Query get customer information
+  //   }
+  //   this.filterCustomer = event;
+  // }
 
   public onChangePlant(event?: any){
     this.filterPlant = event;
@@ -66,10 +71,18 @@ export class DosingDetailsComponent implements OnInit {
     }
   }
 
-  onChangeSearch(event: any){
+  public onChangeArticle(event?: any){
+    if(true)
+    {
+      //Get all dosings with this article
+    }
+  }
 
-    console.log(event.target.value);
-
+  public onChangeDate(event?: any){
+    if(true)
+    {
+      //Get all dosings between this date
+    }
   }
   
   public checkboxClick(prop: CheckboxItem){
@@ -121,8 +134,16 @@ export class DosingDetailsComponent implements OnInit {
     this.getLogging(this.selectedID);
   }
 
+  onChangePlantID(){
+    //get plant
+  }
+
   public getIDs(): void{
     this.dataService.getIDs().subscribe(ids => this.ids = ids.sort());
+  }
+
+  public getPlantIDs(): void{
+    this.plantService.getPlantIDs().subscribe(ids => this.plantids = ids.sort());
   }
 
   public async getLogging(id: number): Promise<any>{

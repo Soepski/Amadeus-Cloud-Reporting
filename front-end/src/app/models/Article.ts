@@ -1,0 +1,34 @@
+export interface Article {
+    articleDbid: number;
+    articleId: string;
+    name: string;
+    density: number;
+    inIfMaxweight: number;
+    inIfStandstillft: number;
+    inIfStandstilltt: number;
+    inC1Gain: number;
+    inC1Minflow: number;
+    inC1Adful: number;
+    inC1Adfll: number;
+    inC1Maxflow: number;
+    inC2PolyFactors1: number;
+    inC2PolyFactors2: number;
+    inC2PolyFactors3: number;
+    inC2PolyFactors4: number;
+    inC2PolyFactors5: number;
+    inC2LnFactor: number;
+    inC2OscillationSpeed: number;
+    inC2MinimalOscillation: number;
+    inC2OscillationFactor: number;
+    inCsOsillationSpeed: number;
+    inCsMinimalOscillation: number;
+    inCsOscillationFactor: number;
+    inCsMaxflow: number;
+    inCsStartthreshold: number;
+    inCsScantime: number;
+    inCsDensity: number;
+    inCsProductactivationfactor: number;
+    inCsProductactivationcycletime: number;
+    inCsPlvKnocker: Uint8Array;
+    generatenewtable: Uint8Array;
+}

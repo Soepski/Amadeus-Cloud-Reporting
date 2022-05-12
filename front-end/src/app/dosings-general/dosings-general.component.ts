@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Logging } from '../models/Logging';
+import { Proportioningrecord } from '../models/Proportioningrecord';
 import { DataService } from '../data.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class DosingsGeneralComponent implements OnInit {
   totaldosedweight: number = 0;
   totalcorrectdosings: number = 0;
   averagetime: number = 0;
+  proportioningrecords: Proportioningrecord[] = [];
 
 
   constructor(private dataService: DataService) {}
@@ -24,12 +26,17 @@ export class DosingsGeneralComponent implements OnInit {
     this.dataService.getDosinFinals().subscribe(loggings => 
       {
         this.loggings = loggings;
-        this.setOptions();
+        this.setOptionsBoxplot();
         this.getStats();
+        this.getProportioningrecords();
+        console.log(this.proportioningrecords);
         console.log(this.loggings);
       });
   }
 
+  public getProportioningrecords(): void {
+    this.dataService.getProportioningrecords().subscribe(records => this.proportioningrecords = records);
+  }
   getStats(){
     //total dosings
     this.totaldosings = this.loggings.length;
@@ -75,7 +82,7 @@ export class DosingsGeneralComponent implements OnInit {
     return array;
   }
 
-  setOptions() {
+  setOptionsBoxplot() {
     this.ChartOptions = {
       title: {
         text: "Boxplot dosing general",

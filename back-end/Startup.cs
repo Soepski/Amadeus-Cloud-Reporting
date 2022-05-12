@@ -59,6 +59,10 @@ namespace Amadeus_Cloud_Reporting_Back_end
 
             services.AddScoped<PlantLogic>();
 
+            services.AddScoped<IArticleRepo, ArticleRepo>();
+
+            services.AddScoped<ArticleLogic>();
+
             services.AddAutoMapper(typeof(Startup));
         }
 

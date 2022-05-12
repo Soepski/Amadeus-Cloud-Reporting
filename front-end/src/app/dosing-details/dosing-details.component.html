@@ -19,7 +19,7 @@
 
   <div class="form-group first">
     <h4 for="">Dosing ID</h4>
-    <select class="form-control" name="" id="" [(ngModel)]="selectedPlantID" (change)="onChangePlantID()">
+    <select class="form-control" name="dosingid"  [(ngModel)]="selectedID" (change)="onChangeID()">
       <option *ngFor="let id of ids" [value]="id">{{id}}</option>
     </select>
   </div>
@@ -49,6 +49,8 @@
         <td style="padding-left: 10px;">{{setpointMax}}</td>
         <td>Min:</td>
         <td style="padding-left: 10px;">{{setpointMin}}</td>
+        <td>Tijd:</td>
+        <td style="padding-left: 10px;">{{total}}</td>
       </tr>
     </table>
   </div>
@@ -67,28 +69,16 @@
   <div class="modal-body">
     <form>
       <div class="mb-3">
-        <!-- <label>Customer</label>
+        <!-- <label>Plant</label>
         <div class="input-group">
-          <select [(ngModel)]="filterCustomer" name="filterCustomer" (ngModelChange)="onChangeCustomer($event)"
-            class="form-control">
-            <option value="" disabled selected>Select customer</option>
-            <option>Customer 1</option>
-            <option>Customer 2</option>
-          </select>
-        </div>-->
-        <label>Plant</label>
-        <div class="input-group">
-          <select class="form-control" name="" id="" [(ngModel)]="selectedPlantID" (change)="onChangePlantID()">
+          <select class="form-control" name="plantid" [(ngModel)]="selectedPlantID" (change)="onChangePlantID()">
             <option *ngFor="let id of plantids" [value]="id">{{id}}</option>
           </select>
-        </div>
+        </div> -->
         <label>Article</label>
         <div class="input-group">
-          <select [(ngModel)]="filterPlant" name="filterPlant" (ngModelChange)="onChangePlant($event)"
-            class="form-control">
-            <option value="" disabled selected>Select article</option>
-            <option>Article 1</option>
-            <option>Acticle 2</option>
+          <select [(ngModel)]="selectedArticle" name="articles" class="form-control">
+            <option *ngFor="let article of articles" [value]="article.name">{{article.name}}</option>
           </select>
         </div>
         <label>Date from</label>

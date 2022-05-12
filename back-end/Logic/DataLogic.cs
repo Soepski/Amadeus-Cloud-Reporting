@@ -1,4 +1,5 @@
-﻿using Amadeus_Cloud_Reporting_Back_end.Repositories;
+﻿using Amadeus_Cloud_Reporting_Back_end.Models.ViewModels;
+using Amadeus_Cloud_Reporting_Back_end.Repositories;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
         }
 
         //Get logging data from specific dosing
-        public ICollection<PlantViewModel> GetLoggings(int id)
+        public ICollection<LoggingViewModel> GetLoggings(int id)
         {
 
             ICollection<AmadeusLogging> loggings = _repo.GetLoggings(id);
@@ -80,18 +81,27 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
                 }
 
             }
-            ICollection<PlantViewModel> loggingViewModels = _mapper.Map<ICollection<PlantViewModel>>(loggings);
+            ICollection<LoggingViewModel> loggingViewModels = _mapper.Map<ICollection<LoggingViewModel>>(loggings);
 
             return loggingViewModels;
         }
 
         //Get the final results from all dosings
-        public ICollection<PlantViewModel> GetDosingFinals()
+        public ICollection<LoggingViewModel> GetDosingFinals()
         {
             ICollection<AmadeusLogging> loggings = _repo.GetDosingFinals();
-            ICollection<PlantViewModel> loggingViewModels = _mapper.Map<ICollection<PlantViewModel>>(loggings);
+            ICollection<LoggingViewModel> loggingViewModels = _mapper.Map<ICollection<LoggingViewModel>>(loggings);
 
             return loggingViewModels;
+        }
+
+        //Get the proportioning records from all dosings
+        public ICollection<ProportioningrecordViewModel> GetProportioningrecords()
+        {
+            ICollection<AmadeusProportioningrecord> proportioningrecords = _repo.GetProportioningrecords ();
+            ICollection<ProportioningrecordViewModel> proportioningrecordViewModels = _mapper.Map<ICollection<ProportioningrecordViewModel>>(proportioningrecords);
+
+            return proportioningrecordViewModels;
         }
     }
 }

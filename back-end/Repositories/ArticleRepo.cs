@@ -25,7 +25,17 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
 
         public List<AmadeusArticle> GetArticlesByPlantID(int id)
         {
-            //return _context.AmadeusProportioningrecords.Select(i => i.Proportioninglocation)
+            var articles = _context.AmadeusArticles;
+            var proportioningrecords = _context.AmadeusProportioningrecords;
+
+            var query =
+                from s in articles
+                join r in proportioningrecords on s.ArticleId equals r.ArticleId
+                where r.Proportioninglocation == id
+                select s;
+
+            return query.ToList();
+
         }
     }
 }

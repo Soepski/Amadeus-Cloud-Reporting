@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Amadeus_Cloud_Reporting_Back_end.Models.ViewModels;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,8 @@ namespace Amadeus_Cloud_Reporting_Back_end.Profiles
     {
         public DataProfile()
         {
-            CreateMap<AmadeusLogging, PlantViewModel>().ReverseMap();
+            CreateMap<AmadeusLogging, LoggingViewModel>().ReverseMap();
+            CreateMap<AmadeusProportioningrecord, ProportioningrecordViewModel>().ReverseMap();
         }
     }
 }

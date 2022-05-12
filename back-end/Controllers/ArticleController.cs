@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace Amadeus_Cloud_Reporting_Back_end.Controllers
 {
+    [Route("[controller]")]
+    [ApiController]
     public class ArticleController : Controller
     {
         private readonly ArticleLogic _logic;
@@ -19,7 +21,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
             _logic = new ArticleLogic(articlerepo, mapper);
         }
 
-        //Get all plants from all sides and all customers
+        //Get all articles
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<List<ArticleViewModel>>> GetArticles()
@@ -31,7 +33,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
             }
             catch (Exception ex)
             {
-                return this.Content(ex.Message + " while getting articles by plant ID");
+                return this.Content(ex.Message + " while getting articles");
             }
         }
 

@@ -10,5 +10,6 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
         public ICollection<int> GetIDs();
         public ICollection<AmadeusLogging> GetLoggings(int id);
         public ICollection<AmadeusLogging> GetDosingFinals();
+        public ICollection<AmadeusProportioningrecord> GetProportioningrecords();
     }
 }

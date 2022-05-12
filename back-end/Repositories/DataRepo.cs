@@ -40,5 +40,10 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
             return query.ToList();
 
         }
+
+        public ICollection<AmadeusProportioningrecord> GetProportioningrecords()
+        {
+            return _context.AmadeusProportioningrecords.ToList();
+        }
     }
 }

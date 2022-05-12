@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Npgsql;
 using Amadeus_Cloud_Reporting_Back_end.Logic;
 using Amadeus_Cloud_Reporting_Back_end.Repositories;
+using Amadeus_Cloud_Reporting_Back_end.Models.ViewModels;
 using AutoMapper;
 
 namespace Amadeus_Cloud_Reporting_Back_end.Controllers
@@ -40,12 +41,12 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
         //Get all the loggings from a specific dosing
         [HttpGet]
         [Route("get/{id}")]
-        public async Task<ActionResult<List<PlantViewModel>>> GetLoggings(int id)
+        public async Task<ActionResult<List<LoggingViewModel>>> GetLoggings(int id)
         {
 
             try
             {
-                ICollection<PlantViewModel> loggingViewModels = _logic.GetLoggings(id);
+                ICollection<LoggingViewModel> loggingViewModels = _logic.GetLoggings(id);
                 return Ok(loggingViewModels);
             }
             catch (Exception ex)
@@ -57,16 +58,32 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
         //Get the end stats of a dosing
         [HttpGet]
         [Route("get/finals")]
-        public async Task<ActionResult<List<PlantViewModel>>> GetDosingFinals()
+        public async Task<ActionResult<List<LoggingViewModel>>> GetDosingFinals()
         {
             try
             {
-                ICollection<PlantViewModel> loggingViewModels = _logic.GetDosingFinals();
+                ICollection<LoggingViewModel> loggingViewModels = _logic.GetDosingFinals();
                 return Ok(loggingViewModels);
             }
             catch (Exception ex)
             {
                 return this.Content(ex.Message + " while getting loggings by finals");
+            }
+        }
+
+        //Get the end proportioningrecord of all dosings
+        [HttpGet]
+        [Route("get/proportioningrecords")]
+        public async Task<ActionResult<List<ProportioningrecordViewModel>>> GetProportioningrecords()
+        {
+            try
+            {
+                ICollection<ProportioningrecordViewModel> proportioningrecordViewModels = _logic.GetProportioningrecords();
+                return Ok(proportioningrecordViewModels);
+            }
+            catch (Exception ex)
+            {
+                return this.Content(ex.Message + " while getting proportioning records");
             }
         }
     }

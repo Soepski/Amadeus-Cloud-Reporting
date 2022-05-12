@@ -19,6 +19,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
             _mapper = mapper;
         }
 
+
         //Get all plants
         public ICollection<ArticleViewModel> GetArticles()
         {

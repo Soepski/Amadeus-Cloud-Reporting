@@ -11,7 +11,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Profiles
     {
         public PlantProfile()
         {
-            CreateMap<Plant, PlantViewModel>().ReverseMap();
+            CreateMap<Plant, LoggingViewModel>().ReverseMap();
         }
     }
 }

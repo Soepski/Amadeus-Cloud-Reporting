@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { PlantService } from '../plant.service';
+import { ArticleService } from '../article.service';
 import { Logging } from '../models/Logging';
 import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { CheckboxItem } from '../models/CheckboxItem';
@@ -9,6 +10,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { DxSelectBoxModule, DxListModule, DxTemplateModule } from 'devextreme-angular';
 import DataSource from 'devextreme/data/data_source';
+import { Article } from '../models/Article';
 
 @Component({
   selector: 'app-dosing-details',
@@ -18,6 +20,7 @@ import DataSource from 'devextreme/data/data_source';
 export class DosingDetailsComponent implements OnInit {
 
   loggings: Logging[] = [];
+  articles: Article[] = [];
   loggingProps: String[] = [];
   selectedItems: String[] = [];
   checkboxList: Array<any> = [];
@@ -34,6 +37,7 @@ export class DosingDetailsComponent implements OnInit {
   plantids: number[] = [];
   selectedID!: number;
   selectedPlantID!: number;
+  selectedArticle!: Article;
   closeResult = '';
   filterCustomer!: string;
   filterPlant!: string;
@@ -43,33 +47,29 @@ export class DosingDetailsComponent implements OnInit {
   timeArray?: Array<number>;
   searchExpr: string = "";
   searchMode: Array<any> = [];
+  total!: number;
 
  
-  constructor(private dataService: DataService, private plantService: PlantService, private modalService: NgbModal) { }
+  constructor(private dataService: DataService, private plantService: PlantService, private articleService: ArticleService, private modalService: NgbModal) { }
 
   
   public async ngOnInit(){
     //Get all customers
     await this.getIDs();
-    //All plant IDS
-    await this.getPlantIDs();   
+    //Get all plant IDS
+    await this.getPlantIDs();
   }
 
-  // public onChangeCustomer(event?: any){
-  //   if(this.filterCustomer != null && this.filterPlant == null && this.filterDateFrom == null && this.filterDateUntil == null)
-  //   {
-  //     //Query get customer information
-  //   }
-  //   this.filterCustomer = event;
+  public async onChangeID() {
+    this.getLoading();
+    this.loggings = [];
+    this.getLogging(this.selectedID);
+  }
+
+  // onChangePlantID(){  
+  //   this.articles = [];
+  //   this.getArticlesByPlantID(this.selectedPlantID);
   // }
-
-  public onChangePlant(event?: any){
-    this.filterPlant = event;
-    if(this.filterPlant != null && this.filterDateFrom == null && this.filterDateUntil == null)
-    {
-      //Get dosings from customer and plant
-    }
-  }
 
   public onChangeArticle(event?: any){
     if(true)
@@ -128,22 +128,20 @@ export class DosingDetailsComponent implements OnInit {
     }
   }
 
-  public async onChangeID() {
-    this.getLoading();
-    this.loggings = [];
-    this.getLogging(this.selectedID);
-  }
-
-  onChangePlantID(){
-    //get plant
-  }
-
   public getIDs(): void{
     this.dataService.getIDs().subscribe(ids => this.ids = ids.sort());
   }
 
   public getPlantIDs(): void{
     this.plantService.getPlantIDs().subscribe(ids => this.plantids = ids.sort());
+  }
+
+  public getArticles():void{
+    this.articleService.getArticles().subscribe(articles => this.articles = articles);
+  }
+
+  public getArticlesByPlantID(id: number): void{
+    this.articleService.getArticlesByPlantID(id).subscribe(articles => this.articles = articles);
   }
 
   public async getLogging(id: number): Promise<any>{
@@ -189,16 +187,13 @@ export class DosingDetailsComponent implements OnInit {
     let steps = this.loggings.length - 1;
     let increase = total / steps;
 
-    console.log(total);
-    console.log(steps);
-    console.log(increase);
-
+    this.total = this.total;
     this.timeArray = [0];
 
     for(var i = 0; i <= steps; i++){
       this.timeArray.push(Math.round((this.timeArray[this.timeArray.length - 1] + increase) * 100) / 100);
     }
-    console.log(this.timeArray);
+
   }
 
   setOptions() {

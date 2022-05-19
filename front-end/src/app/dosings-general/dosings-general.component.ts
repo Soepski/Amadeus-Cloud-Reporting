@@ -1,7 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Type } from '@angular/core';
 import { Logging } from '../models/Logging';
 import { Proportioningrecord } from '../models/Proportioningrecord';
 import { DataService } from '../data.service';
+import * as echarts from 'echarts';
+
+import ecStat from 'echarts-stat';
+
+type EChartsOption = echarts.EChartsOption;
+
+//See https://github.com/ecomfe/echarts-stat
+echarts.registerTransform(ecStat.transform.histogram);
+
+
+
+
 
 @Component({
   selector: 'app-dosings-general',
@@ -17,27 +29,35 @@ export class DosingsGeneralComponent implements OnInit {
   totalcorrectdosings: number = 0;
   averagetime: number = 0;
   proportioningrecords: Proportioningrecord[] = [];
+  
+
 
 
   constructor(private dataService: DataService) {}
 
-  ngOnInit(): void {
-    this.getLoading();
+  public async ngOnInit(){
+    this.getLoading(); 
+    this.getProportioningrecords();
     this.dataService.getDosinFinals().subscribe(loggings => 
       {
         this.loggings = loggings;
-        this.setOptionsBoxplot();
         this.getStats();
-        this.getProportioningrecords();
-        console.log(this.proportioningrecords);
-        console.log(this.loggings);
+        
       });
+    var chartDom = document.getElementById('container')!;
+    var myChart = echarts.init(chartDom);
   }
 
   public getProportioningrecords(): void {
-    this.dataService.getProportioningrecords().subscribe(records => this.proportioningrecords = records);
+    this.dataService.getProportioningrecords().subscribe(records => 
+      {
+        this.proportioningrecords = records;
+        console.log(this.proportioningrecords);
+        this.setOptionsBarHistogram();
+        this.getStats();
+      });
   }
-  getStats(){
+  public getStats(): void{
     //total dosings
     this.totaldosings = this.loggings.length;
 
@@ -47,7 +67,7 @@ export class DosingsGeneralComponent implements OnInit {
     {
       totaldosedweight! = totaldosedweight! + arrayitem.ifDosedWeight!
     })
-    this.totaldosedweight = Math.floor(totaldosedweight);
+    this.totaldosedweight = Math.round(totaldosedweight);
 
     //total correct dosings
     let correctdosings: number = 0;
@@ -69,6 +89,15 @@ export class DosingsGeneralComponent implements OnInit {
     let miliseconds: number = totalmicroseconds / 1000;
   }
 
+  public getTimeOfDosing(prop: Proportioningrecord): number{
+    var date1 = new Date(prop.startTime);
+    var date2 = new Date(prop.endTime);
+    
+    var Time = date2.getTime() - date1.getTime();
+    
+    return Time/1000;
+  }
+
   public getDosingValues(): Array<Number[]>{
     let array: Array<Number[]> = [];
     this.loggings.forEach(function (arrayitem){
@@ -82,7 +111,7 @@ export class DosingsGeneralComponent implements OnInit {
     return array;
   }
 
-  setOptionsBoxplot() {
+  public setOptionsBoxplot() {
     this.ChartOptions = {
       title: {
         text: "Boxplot dosing general",
@@ -122,7 +151,7 @@ export class DosingsGeneralComponent implements OnInit {
     };
   }
 
-  getLoading(){
+  public getLoading(){
     this.ChartOptions = {
       graphic: {
         elements: [
@@ -165,4 +194,117 @@ export class DosingsGeneralComponent implements OnInit {
       }
     };
   }
+
+  public setOptionsBarHistogram(){
+    this.ChartOptions = {
+      dataset: [
+        {
+          source: [
+            [this.getTimeOfDosing(this.proportioningrecords[0]), this.proportioningrecords[0].actualamount],
+            [this.getTimeOfDosing(this.proportioningrecords[1]), this.proportioningrecords[1].actualamount],
+          ]
+        },
+        {
+          transform: {
+            type: 'ecStat:histogram',
+            config: {}
+          }
+        },
+        {
+          transform: {
+            type: 'ecStat:histogram',
+            // print: true,
+            config: { dimensions: [1] }
+          }
+        }
+      ],
+      tooltip: {},
+      grid: [
+        {
+          top: '50%',
+          right: '50%'
+        },
+        {
+          bottom: '52%',
+          right: '50%'
+        },
+        {
+          top: '50%',
+          left: '52%'
+        }
+      ],
+      xAxis: [
+        {
+          scale: true,
+          gridIndex: 0
+        },
+        {
+          type: 'category',
+          scale: true,
+          axisTick: { show: false },
+          axisLabel: { show: false },
+          axisLine: { show: false },
+          gridIndex: 1
+        },
+        {
+          scale: true,
+          gridIndex: 2
+        }
+      ],
+      yAxis: [
+        {
+          gridIndex: 0
+        },
+        {
+          gridIndex: 1
+        },
+        {
+          type: 'category',
+          axisTick: { show: false },
+          axisLabel: { show: false },
+          axisLine: { show: false },
+          gridIndex: 2
+        }
+      ],
+      series: [
+        {
+          name: 'origianl scatter',
+          type: 'scatter',
+          xAxisIndex: 0,
+          yAxisIndex: 0,
+          encode: { tooltip: [0, 1] },
+          datasetIndex: 0
+        },
+        {
+          name: 'histogram',
+          type: 'bar',
+          xAxisIndex: 1,
+          yAxisIndex: 1,
+          barWidth: '99.3%',
+          label: {
+            show: true,
+            position: 'top'
+          },
+          encode: { x: 0, y: 1, itemName: 4 },
+          datasetIndex: 1
+        },
+        {
+          name: 'histogram',
+          type: 'bar',
+          xAxisIndex: 2,
+          yAxisIndex: 2,
+          barWidth: '99.3%',
+          label: {
+            show: true,
+            position: 'right'
+          },
+          encode: { x: 1, y: 0, itemName: 4 },
+          datasetIndex: 2
+        }
+      ]
+    };
+    
+  }
+  
+  
 }

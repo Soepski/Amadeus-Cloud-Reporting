@@ -103,5 +103,21 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
 
             return proportioningrecordViewModels;
         }
+
+        public ICollection<ProportioningrecordViewModel> GetProportioningRecordsByArticle(string article)
+        {
+            ICollection<AmadeusProportioningrecord> proportioningrecords = _repo.GetProportioningRecordsByArticle(article);
+            ICollection<ProportioningrecordViewModel> proportioningrecordViewModels = _mapper.Map<ICollection<ProportioningrecordViewModel>>(proportioningrecords);
+
+            return proportioningrecordViewModels;
+        }
+
+        public ICollection<ProportioningrecordViewModel> GetProportioningRecordsByArticleAndDate(string article, DateTime datefrom, DateTime dateuntil)
+        {
+            ICollection<AmadeusProportioningrecord> proportioningrecords = _repo.GetProportioningRecordsByArticleAndDate(article, datefrom, dateuntil);
+            ICollection<ProportioningrecordViewModel> proportioningrecordViewModels = _mapper.Map<ICollection<ProportioningrecordViewModel>>(proportioningrecords);
+
+            return proportioningrecordViewModels;
+        }
     }
 }

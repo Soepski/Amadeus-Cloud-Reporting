@@ -80,7 +80,7 @@ namespace Amadeus_Cloud_Reporting_Back_end
                 entity.Property(e => e.InC2OscillationFactor).HasColumnName("in_c2_oscillation_factor");
 
                 entity.Property(e => e.InC2OscillationSpeed).HasColumnName("in_c2_oscillation_speed");
-
+                    
                 entity.Property(e => e.InC2PolyFactors1).HasColumnName("in_c2_poly_factors_1");
 
                 entity.Property(e => e.InC2PolyFactors2).HasColumnName("in_c2_poly_factors_2");

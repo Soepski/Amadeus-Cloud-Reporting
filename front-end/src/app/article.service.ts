@@ -15,6 +15,7 @@ export class ArticleService {
   //Data
   private readonly getArticlesURL = this.baseURL + "Article/all";
   private readonly getArticlesByPlantIDURL = this.baseURL + "Article/";
+  private readonly getArticlesByProportioningRecordsURL = this.baseURL + "Article/all/records";
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'}),
@@ -26,6 +27,10 @@ export class ArticleService {
 
   public getArticlesByPlantID(id: number): Observable<Article[]>{
     return this.http.get<Article[]>(this.getArticlesByPlantIDURL + id);
+  }
+
+  public getArticlesByProportioningRecords(): Observable<Article[]>{
+    return this.http.get<Article[]>(this.getArticlesByProportioningRecordsURL);
   }
 
 }

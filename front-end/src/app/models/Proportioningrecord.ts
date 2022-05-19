@@ -12,8 +12,8 @@ export interface Proportioningrecord {
     actualamount: number;
     measureddensity: number;
     measuredangleofrepose: number;
-    startTime: string | null;
-    endTime: string | null;
+    startTime: string;
+    endTime: string;
     requestreceivedtime: string | null;
     proportioninglocation: number;
     manufacturingorderid: string;

@@ -37,5 +37,20 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
             return query.ToList();
 
         }
+
+        public List<AmadeusArticle> GetArticlesByProportioningRecords()
+        {
+            var articles = _context.AmadeusArticles;
+            var proportioningrecords = _context.AmadeusProportioningrecords;
+
+            var query =
+                from s in articles
+                join r in proportioningrecords on s.ArticleId equals r.ArticleId
+                select s;
+
+            return query.ToList();
+
+        }
+
     }
 }

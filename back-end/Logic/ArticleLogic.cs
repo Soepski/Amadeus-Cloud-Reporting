@@ -39,5 +39,15 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
 
             return articleViewModels;
         }
+
+        //Get plants from specific customer 
+        public ICollection<ArticleViewModel> GetArticlesByProportioningRecords()
+        {
+
+            ICollection<AmadeusArticle> articles = _repo.GetArticlesByProportioningRecords();
+            ICollection<ArticleViewModel> articleViewModels = _mapper.Map<ICollection<ArticleViewModel>>(articles);
+
+            return articleViewModels;
+        }
     }
 }

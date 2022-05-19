@@ -53,5 +53,22 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
                 return this.Content(ex.Message + " while getting articles by plant ID");
             }
         }
+
+        //Get all plants from a specific customer
+        [HttpGet]
+        [Route("all/records")]
+        public async Task<ActionResult<List<ArticleViewModel>>> GetArticlesByProportioningRecords()
+        {
+
+            try
+            {
+                ICollection<ArticleViewModel> articleViewModels = _logic.GetArticlesByProportioningRecords();
+                return Ok(articleViewModels);
+            }
+            catch (Exception ex)
+            {
+                return this.Content(ex.Message + " while getting articles by proportioning records");
+            }
+        }
     }
 }

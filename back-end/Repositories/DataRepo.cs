@@ -38,12 +38,40 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
                 select m;
 
             return query.ToList();
-
+            
         }
 
         public ICollection<AmadeusProportioningrecord> GetProportioningrecords()
         {
+            
             return _context.AmadeusProportioningrecords.ToList();
+        }
+
+        public ICollection<AmadeusProportioningrecord> GetProportioningRecordsByArticle(string article)
+        {
+
+            var proportioningrecords = _context.AmadeusProportioningrecords;
+            var articles = _context.AmadeusArticles;
+
+            var query =
+                from p in proportioningrecords.Where(a => a.ArticleId == article)
+                select p;
+            
+            return query.ToList();
+        }
+
+        public ICollection<AmadeusProportioningrecord> GetProportioningRecordsByArticleAndDate(string article, DateTime datefrom, DateTime dateuntil)
+        {
+
+            var proportioningrecords = _context.AmadeusProportioningrecords;
+            var articles = _context.AmadeusArticles;
+
+            var query =
+                from p in proportioningrecords.Where(a => a.ArticleId == article)
+                    .Where(d => d.StartTime >= datefrom.Date && d.EndTime <= dateuntil.Date)
+                select p;
+
+            return query.ToList();
         }
     }
 }

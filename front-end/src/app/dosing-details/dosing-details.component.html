@@ -17,14 +17,31 @@
     </div>
   </div>
 
+  <!-- <div class="form-group first">
+    <h4 for="">Dosing ID</h4>
+    <select class="form-control" name="dosingid"  [(ngModel)]="selectedID" (change)="onChangeID()">
+      <option disabled hidden [value]="selectUndefinedOptionValue">Update filter first</option>
+      <option *ngFor="let id of ids" [value]="id">{{id}}</option>
+    </select>
+  </div> -->
+
   <div class="form-group first">
     <h4 for="">Dosing ID</h4>
     <select class="form-control" name="dosingid"  [(ngModel)]="selectedID" (change)="onChangeID()">
-      <option *ngFor="let id of ids" [value]="id">{{id}}</option>
+      <option disabled hidden [value]="selectUndefinedOptionValue">Update filter first</option>
+      <option *ngFor="let record of records" [value]="record.proportioningrecordDbid">
+        <table>
+          <tr>
+            <td>ID: {{record.proportioningrecordDbid}}&nbsp;&nbsp;</td>
+            <td>Article name: {{record.articleName}}&nbsp;&nbsp;</td>
+            <td>Start time: {{record.startTime}}</td>
+          </tr>
+        </table>
+      </option>
     </select>
   </div>
 
-  <div class="second">
+  <div class="second" *ngIf="loggings">
     <table class="stattable">
       <th>
         <h5>Stats:</h5>
@@ -50,7 +67,7 @@
         <td>Min:</td>
         <td style="padding-left: 10px;">{{setpointMin}}</td>
         <td>Tijd:</td>
-        <td style="padding-left: 10px;">{{total}}</td>
+        <td style="padding-left: 10px;">{{time}}s</td>
       </tr>
     </table>
   </div>
@@ -77,19 +94,18 @@
         </div> -->
         <label>Article</label>
         <div class="input-group">
-          <select [(ngModel)]="selectedArticle" name="articles" class="form-control">
-            <option *ngFor="let article of articles" [value]="article.name">{{article.name}}</option>
+          <select [(ngModel)]="selectedArticle" name="article" class="form-control" (change)="onChangeArticle()">
+            
+            <option *ngFor="let article of articles" [value]="article.articleId">{{article.articleId}}</option>
           </select>
         </div>
         <label>Date from</label>
         <div class="input-group">
-          <input [(ngModel)]="filterDateFrom" type="date" id="dataFrom" class="form-control" required
-            pattern="\d{4}-\d{2}-\d{2}" placeholder="dd-mm-yyyy" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <input [(ngModel)]="filterDateFrom" type="Date" id="dataFrom" class="form-control" name="dp" ngbDatepicker #dp="ngbDatepicker">
         </div>
         <label>Date until</label>
         <div class="input-group">
-          <input [(ngModel)]="filterDateUntil" type="date" id="dateUntil" class="form-control" placeholder="dd-mm-yyyy"
-            name="dp1" ngbDatepicker #dp1="ngbDatepicker">
+          <input [(ngModel)]="filterDateUntil" (change)="onChangeDate()" type="Date" id="dateUntil" class="form-control" name="dp1" ngbDatepicker #dp1="ngbDatepicker">
         </div>
       </div>
     </form>

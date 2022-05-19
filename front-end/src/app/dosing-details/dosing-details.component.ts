@@ -5,12 +5,10 @@ import { ArticleService } from '../article.service';
 import { Logging } from '../models/Logging';
 import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { CheckboxItem } from '../models/CheckboxItem';
-import { NgModule, enableProdMode } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { DxSelectBoxModule, DxListModule, DxTemplateModule } from 'devextreme-angular';
-import DataSource from 'devextreme/data/data_source';
 import { Article } from '../models/Article';
+import { Proportioningrecord } from '../models/Proportioningrecord';
+import { DatePipe } from '@angular/common';
+import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-dosing-details',
@@ -19,7 +17,8 @@ import { Article } from '../models/Article';
 })
 export class DosingDetailsComponent implements OnInit {
 
-  loggings: Logging[] = [];
+  loggings?: Logging[];
+  records: Proportioningrecord[] = [];
   articles: Article[] = [];
   loggingProps: String[] = [];
   selectedItems: String[] = [];
@@ -42,22 +41,30 @@ export class DosingDetailsComponent implements OnInit {
   filterCustomer!: string;
   filterPlant!: string;
   filterArticle!: string;
-  filterDateFrom!: Date;
-  filterDateUntil!: Date;
+  filterDateFrom!: NgbDateStruct;
+  filterDateUntil!: NgbDateStruct;
   timeArray?: Array<number>;
   searchExpr: string = "";
   searchMode: Array<any> = [];
   total!: number;
+  time: number = 0;
+  selectUndefinedOptionValue:any;
 
  
-  constructor(private dataService: DataService, private plantService: PlantService, private articleService: ArticleService, private modalService: NgbModal) { }
+  constructor(private dataService: DataService, 
+    private plantService: PlantService, 
+    private articleService: ArticleService, 
+    private modalService: NgbModal,
+    private datePipe: DatePipe) { }
 
   
   public async ngOnInit(){
     //Get all customers
-    await this.getIDs();
+    //await this.getIDs();
     //Get all plant IDS
     await this.getPlantIDs();
+    //Get all articles
+    await this.getArticlesByProportioningRecords();
   }
 
   public async onChangeID() {
@@ -66,23 +73,17 @@ export class DosingDetailsComponent implements OnInit {
     this.getLogging(this.selectedID);
   }
 
-  // onChangePlantID(){  
-  //   this.articles = [];
-  //   this.getArticlesByPlantID(this.selectedPlantID);
-  // }
 
-  public onChangeArticle(event?: any){
-    if(true)
-    {
-      //Get all dosings with this article
-    }
+  public async onChangeArticle() {
+    this.getProportioningRecordsByArticle();
+    this.selectUndefinedOptionValue = "";
+    this.resetChart();    
   }
 
-  public onChangeDate(event?: any){
-    if(true)
-    {
-      //Get all dosings between this date
-    }
+  public onChangeDate(){
+    this.getProportioningRecordsByArticleAndDate();
+    this.selectUndefinedOptionValue = "";
+    this.resetChart();   
   }
   
   public checkboxClick(prop: CheckboxItem){
@@ -100,7 +101,6 @@ export class DosingDetailsComponent implements OnInit {
      this.checkboxListUpdate();
     }
 
-    console.log(this.selectedItems);
   }
 
   public checkboxListUpdate(){
@@ -144,11 +144,40 @@ export class DosingDetailsComponent implements OnInit {
     this.articleService.getArticlesByPlantID(id).subscribe(articles => this.articles = articles);
   }
 
+  public getArticlesByProportioningRecords(): void{
+    this.articleService.getArticlesByProportioningRecords().subscribe(articles => this.articles = articles);
+  }
+
+  public async getProportioningRecordsByArticle(): Promise<any>{
+    this.dataService.getProportioningRecordsByArticle(this.selectedArticle.toString()).subscribe(records => 
+      { 
+        this.ids = [];
+        this.records = records;
+        records.forEach(a => {
+            this.ids.push(a.proportioningrecordDbid);
+        });
+      });
+  }
+
+  public async getProportioningRecordsByArticleAndDate(): Promise<any>{
+    let datefrom = new Date(this.filterDateFrom.year, this.filterDateFrom.month - 1, this.filterDateFrom.day)
+    let dateuntil = new Date(this.filterDateUntil.year, this.filterDateUntil.month - 1, this.filterDateUntil.day)
+    console.log(this.datePipe.transform(datefrom), this.datePipe.transform(dateuntil));
+    this.dataService.getProportioningRecordsByArticleAndDate(this.selectedArticle.toString(), this.datePipe.transform(datefrom)!, this.datePipe.transform(dateuntil)!).subscribe(records => 
+      { 
+        this.ids = [];
+        this.records = records;
+        records.forEach(a => {
+            this.ids.push(a.proportioningrecordDbid);
+        });
+      });
+  }
+
   public async getLogging(id: number): Promise<any>{
     this.dataService.getLoggings(this.selectedID).subscribe(result => 
       {this.loggings = result; 
         this.loggingProps = Object.keys(this.loggings[0]); 
-        this.selectedItems = ["c3DesiredSlidePosition", "ifNetWeight6"];
+        this.selectedItems = ["c3DesiredSlidePosition", "ifNetWeight10", "c1ExpectedFlow", "ifNetWeight1", "c1SlideOpening", "c1Productactivationfactor"];
         if(this.loggings[0].ifTypeofdosing == 1){this.typeofdosing = "Dosing";}
         else{this.typeofdosing = "Stuffing/filling";}
         this.setpoint = this.loggings[0].ifSetpoint;
@@ -169,25 +198,25 @@ export class DosingDetailsComponent implements OnInit {
 
   public calculateTimeToSecond(): number{
     //7: micro, 6: seconden, 5: minuten, 4: uren, 3: dagen, 2: maanden, 1: jaren
-    let microseconds = this.loggings[this.loggings.length - 1].ifDosedTime7;
-    let seconds = this.loggings[this.loggings.length - 1].ifDosedTime6;
-    let minutes = this.loggings[this.loggings.length - 1].ifDosedTime5;
-    let hours = this.loggings[this.loggings.length - 1].ifDosedTime4;
-    let days = this.loggings[this.loggings.length - 1].ifDosedTime3;
-    let months = this.loggings[this.loggings.length - 1].ifDosedTime2;
-    let years = this.loggings[this.loggings.length - 1].ifDosedTime1;
+    let microseconds = this.loggings![this.loggings!.length - 1].ifDosedTime7;
+    let seconds = this.loggings![this.loggings!.length - 1].ifDosedTime6;
+    let minutes = this.loggings![this.loggings!.length - 1].ifDosedTime5;
+    let hours = this.loggings![this.loggings!.length - 1].ifDosedTime4;
+    let days = this.loggings![this.loggings!.length - 1].ifDosedTime3;
+    let months = this.loggings![this.loggings!.length - 1].ifDosedTime2;
+    let years = this.loggings![this.loggings!.length - 1].ifDosedTime1;
     
     let covertedtoseconds = (microseconds!/1000000) + seconds! + (minutes!*60) + (hours!*3600) + (days!*86400) + (months!*2629743) + (years!*31556926);
+    this.time = covertedtoseconds;
 
     return covertedtoseconds;
   }
 
   public mapDosingTime(){
     let total = this.calculateTimeToSecond();
-    let steps = this.loggings.length - 1;
+    let steps = this.loggings!.length - 1;
     let increase = total / steps;
 
-    this.total = this.total;
     this.timeArray = [0];
 
     for(var i = 0; i <= steps; i++){
@@ -199,9 +228,37 @@ export class DosingDetailsComponent implements OnInit {
   setOptions() {
     this.ChartOptions = {
       title: {
-        text: this.selectedItems[0] + " and " + this.selectedItems[1],
-        left: 'center'
+        text: this.selectedItems[0] + ", " + this.selectedItems[1] + ", " + this.selectedItems[2]
+        + ", " + this.selectedItems[3] + ", " + this.selectedItems[4] + ", " + this.selectedItems[5],
+        left: 'center',
+        padding: [
+          30,  // up
+          0, // right
+          0,  // down
+          0, // left
+      ]
       },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          animation: false,
+          label: {
+            backgroundColor: '#505765'
+          }
+        }
+      },
+      color: [
+        '#0088FE', //0
+        '#8BC500', //1
+        '#FF5714', //2
+        '#E9F100', //3
+        '#001021', //4
+        '#EE80A6', //5
+        '#CE6C47', //6
+        '#D3C1D2', //7
+        '#1C0221', //8
+      ],
       toolbox: {
         feature: {
           dataZoom: {
@@ -212,7 +269,8 @@ export class DosingDetailsComponent implements OnInit {
         }
       },
       legend: {
-        data: [this.selectedItems[0], this.selectedItems[1]],
+        data: [this.selectedItems[0], this.selectedItems[1], this.selectedItems[2], 
+        this.selectedItems[3], this.selectedItems[4], this.selectedItems[5]],
         left: 115
       },
       dataZoom: [
@@ -234,48 +292,150 @@ export class DosingDetailsComponent implements OnInit {
       },
       yAxis: [
         {
-          name: this.selectedItems[0],
-          type: 'value'
+          type: 'value',
+          name: this.selectedItems[0], //Desiredslide//////////////////////////////////
+          nameRotate: 45, 
+          position: 'right',
+          alignTicks: true,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#0088FE',
+              
+
+            }
+          }
         },
         {
-          name: this.selectedItems[1],
           type: 'value',
-          inverse: false
+          name: this.selectedItems[1], //netweight10////////////////////////////////////
+          position: 'right',
+          nameRotate: 45, 
+          alignTicks: true,
+          offset: 30,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#8BC500'
+            }
+          }
+        },
+        {
+          type: 'value',
+          name: this.selectedItems[2], //c1ExpectedFlow/////////////////////////////////////////
+          position: 'left',
+          nameRotate: -45, 
+          alignTicks: true,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#FF5714'
+            }
+          }
+        },
+        {
+          type: 'value',
+          name: this.selectedItems[3], //ifNetWeight6///////////////////////////////////////////////
+          position: 'left',
+          nameRotate: -45, 
+          alignTicks: true,
+          offset: 30,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#E9F100'
+            }
+          }
+        },
+        {
+          type: 'value',
+          name: this.selectedItems[4], //ifNetWeight3///////////////////////////////////////////////
+          position: 'left',
+          nameRotate: -45, 
+          alignTicks: true,
+          offset: 60,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#001021'
+            }
+          }
+        },
+        {
+          type: 'value',
+          name: this.selectedItems[5], //ifNetWeight3///////////////////////////////////////////////
+          position: 'right',
+          nameRotate: 45, 
+          alignTicks: true,
+          offset: 60,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#EE80A6'
+            }
+          }
         }
       ],
       series: [
         {
-          name: this.selectedItems[0], //DesiredSlidePosition
+          name: this.selectedItems[0], //DesiredSlidePosition 1
           type: 'line',
-          areaStyle: {},
           lineStyle: {
             width: 1
           },
           
           // prettier-ignore
-          data: this.loggings.map(c => c[this.selectedItems[0] as keyof Logging])
+          data: this.loggings!.map(c => c[this.selectedItems[0] as keyof Logging])
         },
         {
-          name: this.selectedItems[1], //NetWeight
+          name: this.selectedItems[1], //NetWeight 10
           type: 'line',
           yAxisIndex: 1,
-          areaStyle: {},
           lineStyle: {
             width: 1
           },
           // prettier-ignore
-          data: this.loggings.map(c => c[this.selectedItems[1] as keyof Logging])
+          data: this.loggings!.map(c => c[this.selectedItems[1] as keyof Logging])
         },
         {
-          name: this.selectedItems[2], //Iets
+          name: this.selectedItems[2], //c1ExpectedFlow
           type: 'line',
-          yAxisIndex: 1,
-          areaStyle: {},
+          yAxisIndex: 2,
           lineStyle: {
             width: 1
           },
           // prettier-ignore
-          data: this.loggings.map(c => c[this.selectedItems[2] as keyof Logging])
+          data: this.loggings!.map(c => c[this.selectedItems[2] as keyof Logging])
+        },
+        {
+          name: this.selectedItems[3], //Iets 4
+          type: 'line',
+          yAxisIndex: 3,
+          lineStyle: {
+            width: 1
+          },
+          // prettier-ignore
+          data: this.loggings!.map(c => c[this.selectedItems[3] as keyof Logging])
+        },
+        {
+          name: this.selectedItems[4], //Iets 5
+          type: 'line',
+          yAxisIndex: 4,
+          lineStyle: {
+            width: 1
+          },
+          // prettier-ignore
+          data: this.loggings!.map(c => c[this.selectedItems[4] as keyof Logging])
+        },
+        {
+          name: this.selectedItems[5], //Iets 6
+          type: 'line',
+          yAxisIndex: 5,
+          lineStyle: {
+            width: 1
+          },
+          // prettier-ignore
+          data: this.loggings!.map(c => c[this.selectedItems[5] as keyof Logging])
         }
       ]
     };
@@ -342,5 +502,9 @@ export class DosingDetailsComponent implements OnInit {
         ]
       }
     };
+  }
+
+  resetChart(){
+    this.ChartOptions = {};
   }
 }

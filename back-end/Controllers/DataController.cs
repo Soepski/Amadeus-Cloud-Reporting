@@ -70,7 +70,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
                 return this.Content(ex.Message + " while getting loggings by finals");
             }
         }
-
+    
         //Get the end proportioningrecord of all dosings
         [HttpGet]
         [Route("get/proportioningrecords")]
@@ -79,11 +79,46 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
             try
             {
                 ICollection<ProportioningrecordViewModel> proportioningrecordViewModels = _logic.GetProportioningrecords();
+                
                 return Ok(proportioningrecordViewModels);
             }
             catch (Exception ex)
             {
                 return this.Content(ex.Message + " while getting proportioning records");
+            }
+        }
+
+        //Get the end proportioningrecord of all dosings
+        [HttpGet]
+        [Route("get/proportioningrecords/{article}")]
+        public async Task<ActionResult<List<ProportioningrecordViewModel>>> GetProportioningRecordsByArticle(string article)
+        {
+            try
+            {
+                ICollection<ProportioningrecordViewModel> proportioningrecordViewModels = _logic.GetProportioningRecordsByArticle(article);
+
+                return Ok(proportioningrecordViewModels);
+            }
+            catch (Exception ex)
+            {
+                return this.Content(ex.Message + " while getting proportioning records by article");
+            }
+        }
+
+        //Get the end proportioningrecord of all dosings
+        [HttpGet]
+        [Route("get/proportioningrecords/{article}/{datefrom}/{dateuntil}")]
+        public async Task<ActionResult<List<ProportioningrecordViewModel>>> GetProportioningRecordsByArticleAndDate(string article, DateTime datefrom, DateTime dateuntil)
+        {
+            try
+            {
+                ICollection<ProportioningrecordViewModel> proportioningrecordViewModels = _logic.GetProportioningRecordsByArticleAndDate(article, datefrom, dateuntil);
+
+                return Ok(proportioningrecordViewModels);
+            }
+            catch (Exception ex)
+            {
+                return this.Content(ex.Message + " while getting proportioning records by article");
             }
         }
     }

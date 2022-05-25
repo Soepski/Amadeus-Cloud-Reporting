@@ -16,25 +16,20 @@
       </div>
     </div>
   </div>
+  
 
-  <!-- <div class="form-group first">
+  <div class="form-group first" *ngIf="records">
     <h4 for="">Dosing ID</h4>
-    <select class="form-control" name="dosingid"  [(ngModel)]="selectedID" (change)="onChangeID()">
-      <option disabled hidden [value]="selectUndefinedOptionValue">Update filter first</option>
-      <option *ngFor="let id of ids" [value]="id">{{id}}</option>
-    </select>
-  </div> -->
-
-  <div class="form-group first">
-    <h4 for="">Dosing ID</h4>
-    <select class="form-control" name="dosingid"  [(ngModel)]="selectedID" (change)="onChangeID()">
+    <select class="form-control" name="dosingid"  [(ngModel)]="selectedID" (change)="onChangeID()" size="5">
       <option disabled hidden [value]="selectUndefinedOptionValue">Update filter first</option>
       <option *ngFor="let record of records" [value]="record.proportioningrecordDbid">
         <table>
           <tr>
             <td>ID: {{record.proportioningrecordDbid}}&nbsp;&nbsp;</td>
-            <td>Article name: {{record.articleName}}&nbsp;&nbsp;</td>
-            <td>Start time: {{record.startTime}}</td>
+            <td>Article: {{record.articleName}}&nbsp;&nbsp;</td>
+            <td>Dosing type: {{record.dosingtype}}&nbsp;&nbsp;</td>
+            <td>Setpoint: {{record.requestedamount}}&nbsp;&nbsp;</td>
+            <td>Actual: {{record.actualamount}}</td>
           </tr>
         </table>
       </option>
@@ -73,8 +68,7 @@
   </div>
 </div>
 
-
-<div class="col-md-12" style="margin-top: 12%;">
+<div class="col-md-12" class="chart">
   <div echarts [options]="ChartOptions" class="demo-chart"></div>
 </div>
 
@@ -101,7 +95,7 @@
         </div>
         <label>Date from</label>
         <div class="input-group">
-          <input [(ngModel)]="filterDateFrom" type="Date" id="dataFrom" class="form-control" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <input [(ngModel)]="filterDateFrom" (change)="onChangeDate()" type="Date" id="dataFrom" class="form-control" name="dp" ngbDatepicker #dp="ngbDatepicker">
         </div>
         <label>Date until</label>
         <div class="input-group">

@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
+    "@syncfusion/ej2-angular-grids": "^20.1.56",
     "bootstrap": "^4.5.0",
     "bootstrap-icons": "^1.8.1",
     "bootstrap-select": "^1.13.18",

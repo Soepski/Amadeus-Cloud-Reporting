@@ -1,3 +1,4 @@
+
 .modalbuttonfilter {
   margin-right: 2%;
   display: inline-block;
@@ -29,6 +30,11 @@
 }
 
 .second {
+  width: 40%;
+  float: left;
+}
+
+.third {
   width: 40%;
   float: left;
 }
@@ -96,8 +102,6 @@ ngb-carousel .picsum-img-wrapper>img {
   right: 0;
 }
 
-.rotate {
-
-  transform: rotate(-45deg);
-
+.chart{
+  margin-top: 12%;
 }

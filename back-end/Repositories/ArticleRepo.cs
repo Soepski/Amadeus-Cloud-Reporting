@@ -44,11 +44,12 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
             var proportioningrecords = _context.AmadeusProportioningrecords;
 
             var query =
-                from s in articles
-                join r in proportioningrecords on s.ArticleId equals r.ArticleId
-                select s;
+                from p in proportioningrecords
+                join a in articles on p.ArticleId equals a.ArticleId
 
-            return query.ToList();
+                select a;
+
+            return query.Distinct().ToList();
 
         }
 

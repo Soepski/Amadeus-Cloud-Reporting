@@ -119,5 +119,12 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
 
             return proportioningrecordViewModels;
         }
+
+        public int GetDosingTypePerID(int id)
+        {
+            int dosingtype = _repo.GetDosingTypePerID(id);
+
+            return dosingtype;
+        }
     }
 }

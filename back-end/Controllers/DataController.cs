@@ -121,5 +121,22 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
                 return this.Content(ex.Message + " while getting proportioning records by article");
             }
         }
+
+        //Get the dosing type per dosing
+        [HttpGet]
+        [Route("get/dosingtype/{id}")]
+        public async Task<ActionResult<int>> GetDosingTypePerID(int id)
+        {
+            try
+            {
+                int dosingtype = _logic.GetDosingTypePerID(id);
+
+                return Ok(dosingtype);
+            }
+            catch (Exception ex)
+            {
+                return this.Content(ex.Message + " while getting dpsing type from logging");
+            }
+        }
     }
 }

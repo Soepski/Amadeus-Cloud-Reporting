@@ -16,6 +16,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { DxSelectBoxModule, DxListModule, DxTemplateModule } from 'devextreme-angular';
 import {DatePipe} from '@angular/common';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,7 @@ import {DatePipe} from '@angular/common';
     NgbModule,
     DxSelectBoxModule,
     DxListModule,
-    DxTemplateModule  
+    DxTemplateModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

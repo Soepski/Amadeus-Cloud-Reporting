@@ -29,9 +29,37 @@ export class DosingsGeneralComponent implements OnInit {
   totalcorrectdosings: number = 0;
   averagetime: number = 0;
   proportioningrecords: Proportioningrecord[] = [];
-  
 
-
+  // prettier-ignore
+  dimensions = [
+    'name', 'Weight', 'Weight alarm', 'Weight alarm min', 'Weight alarm max', 'Weight min', 'Weight max'
+  ];
+  // prettier-ignore
+  // data = [
+  //   ['Blouse "Blue Viola"', //Dosing ID
+  //   101.88, //X-as Center //Gewicht
+  //   99.75, //Y-as Center  //Gewicht
+  //   76.75, //X-as Links   //Tolerantie alarm min
+  //   116.75, //X-as rechts //Tolerantie alarm max
+  //   69.88, //Y-as onder   //Gewicht min
+  //   119.88], //Y-as boven //Gewicht boven
+  //   ['Dress "Daisy"', 155.8, 144.03, 126.03, 156.03, 129.8, 188.8],
+  //   ['Trousers "Cutesy Classic"', 203.25, 173.56, 151.56, 187.56, 183.25, 249.25],
+  //   ['Dress "Morning Dew"', 256, 120.5, 98.5, 136.5, 236, 279],
+  //   ['Turtleneck "Dark Chocolate"', 408.89, 294.75, 276.75, 316.75, 385.89, 427.89],
+  //   ['Jumper "Early Spring"', 427.36, 430.24, 407.24, 452.24, 399.36, 461.36],
+  //   ['Breeches "Summer Mood"', 356, 135.5, 123.5, 151.5, 333, 387],
+  //   ['Dress "Mauve Chamomile"', 406, 95.5, 73.5, 111.5, 366, 429],
+  //   ['Dress "Flying Tits"', 527.36, 503.24, 488.24, 525.24, 485.36, 551.36],
+  //   ['Dress "Singing Nightingales"', 587.36, 543.24, 518.24, 555.24, 559.36, 624.36],
+  //   ['Sundress "Cloudy weather"', 603.36, 407.24, 392.24, 419.24, 581.36, 627.36],
+  //   ['Sundress "East motives"', 633.36, 477.24, 445.24, 487.24, 594.36, 652.36],
+  //   ['Sweater "Cold morning"', 517.36, 437.24, 416.24, 454.24, 488.36, 565.36],
+  //   ['Trousers "Lavender Fields"', 443.36, 387.24, 370.24, 413.24, 412.36, 484.36],
+  //   ['Jumper "Coffee with Milk"', 543.36, 307.24, 288.24, 317.24, 509.36, 574.36],
+  //   ['Blouse "Blooming Cactus"', 790.36, 277.24, 254.24, 295.24, 764.36, 818.36],
+  //   ['Sweater "Fluffy Comfort"', 790.34, 678.34, 660.34, 690.34, 762.34, 824.34]
+  // ];
 
   constructor(private dataService: DataService) {}
 
@@ -42,17 +70,32 @@ export class DosingsGeneralComponent implements OnInit {
       {
         this.loggings = loggings;
         this.getStats();
+        this.getScatterArray();
         
       });
     var chartDom = document.getElementById('container')!;
     var myChart = echarts.init(chartDom);
   }
 
+  public setDataSource(): Array<any>{
+    let sourceArray: any[] = [];
+
+    this.proportioningrecords.forEach(element => {
+      let item: any[] = [];
+      item.push(this.getTimeOfDosing(element));
+      item.push(element.actualamount);
+
+      sourceArray.push(item);
+    });
+
+    return sourceArray;
+  }
+
   public getProportioningrecords(): void {
     this.dataService.getProportioningrecords().subscribe(records => 
       {
         this.proportioningrecords = records;
-        console.log(this.proportioningrecords);
+        //[time, amount], [time, amount]
         this.setOptionsBarHistogram();
         this.getStats();
       });
@@ -109,6 +152,110 @@ export class DosingsGeneralComponent implements OnInit {
     })
 
     return array;
+  }
+
+  public getScatterArray(): Array<Array<any>>{
+    let arrayComplete: Array<Array<any>> = [];
+
+    this.proportioningrecords.forEach(element => {
+      //let arrayItem: Array<any> = [];
+      arrayComplete.push([element.articleName + " " + element.proportioningrecordDbid,
+        element.actualamount,
+        element.actualamount,
+        element.requestedamount - ((element.requestedamount / 100)  * element.requiredalarmtolerance),
+        element.requestedamount + ((element.requestedamount / 100)  * element.requiredalarmtolerance),
+        element.requestedamount - ((element.requestedamount / 100)  * element.requiredtolerance),
+        element.requestedamount + ((element.requestedamount / 100)  * element.requiredtolerance)
+      ])
+      
+    });
+    console.log(arrayComplete);
+    return arrayComplete;
+  }
+
+  renderItem(
+    params: echarts.CustomSeriesRenderItemParams,
+    api: echarts.CustomSeriesRenderItemAPI
+  ): echarts.CustomSeriesRenderItemReturn {
+    const group: echarts.CustomSeriesRenderItemReturn = {
+      type: 'group',
+      children: []
+    };
+    let coordDims = ['x', 'y'];
+  
+    for (let baseDimIdx = 0; baseDimIdx < 2; baseDimIdx++) {
+      let otherDimIdx = 1 - baseDimIdx;
+      let encode = params.encode;
+      let baseValue = api.value(encode[coordDims[baseDimIdx]][0]);
+      let param = [];
+      param[baseDimIdx] = baseValue;
+      param[otherDimIdx] = api.value(encode[coordDims[otherDimIdx]][1]);
+      let highPoint = api.coord(param);
+      param[otherDimIdx] = api.value(encode[coordDims[otherDimIdx]][2]);
+      let lowPoint = api.coord(param);
+      let halfWidth = 5;
+  
+      var style = api.style({
+        stroke: api.visual('color') as string,
+        fill: undefined
+      });
+  
+      group.children.push(
+        {
+          type: 'line',
+          transition: ['shape'],
+          shape: makeShape(
+            baseDimIdx,
+            highPoint[baseDimIdx] - halfWidth,
+            highPoint[otherDimIdx],
+            highPoint[baseDimIdx] + halfWidth,
+            highPoint[otherDimIdx]
+          ),
+          style: style
+        },
+        {
+          type: 'line',
+          transition: ['shape'],
+          shape: makeShape(
+            baseDimIdx,
+            highPoint[baseDimIdx],
+            highPoint[otherDimIdx],
+            lowPoint[baseDimIdx],
+            lowPoint[otherDimIdx]
+          ),
+          style: style
+        },
+        {
+          type: 'line',
+          transition: ['shape'],
+          shape: makeShape(
+            baseDimIdx,
+            lowPoint[baseDimIdx] - halfWidth,
+            lowPoint[otherDimIdx],
+            lowPoint[baseDimIdx] + halfWidth,
+            lowPoint[otherDimIdx]
+          ),
+          style: style
+        }
+      );
+    }
+  
+    function makeShape(
+      baseDimIdx: number,
+      base1: number,
+      value1: number,
+      base2: number,
+      value2: number
+    ) {
+      var shape: Record<string, number> = {};
+      shape[coordDims[baseDimIdx] + '1'] = base1;
+      shape[coordDims[1 - baseDimIdx] + '1'] = value1;
+      shape[coordDims[baseDimIdx] + '2'] = base2;
+      shape[coordDims[1 - baseDimIdx] + '2'] = value2;
+      return shape;
+    }
+  
+    return group;
   }
 
   public setOptionsBoxplot() {
@@ -199,10 +346,9 @@ export class DosingsGeneralComponent implements OnInit {
     this.ChartOptions = {
       dataset: [
         {
-          source: [
-            [this.getTimeOfDosing(this.proportioningrecords[0]), this.proportioningrecords[0].actualamount],
-            [this.getTimeOfDosing(this.proportioningrecords[1]), this.proportioningrecords[1].actualamount],
-          ]
+          source: 
+            //[time, amount]
+            this.setDataSource()         
         },
         {
           transform: {
@@ -267,13 +413,42 @@ export class DosingsGeneralComponent implements OnInit {
         }
       ],
       series: [
+        // {
+        //   name: 'origianl scatter',
+        //   type: 'scatter',
+        //   xAxisIndex: 0,
+        //   yAxisIndex: 0,
+        //   encode: { tooltip: [0, 1] },
+        //   datasetIndex: 0
+        // },
         {
-          name: 'origianl scatter',
           type: 'scatter',
-          xAxisIndex: 0,
-          yAxisIndex: 0,
-          encode: { tooltip: [0, 1] },
-          datasetIndex: 0
+          name: 'error',
+          data: this.getScatterArray(),
+          dimensions: this.dimensions,
+          encode: {
+            x: 2,
+            y: 1,
+            tooltip: [2, 1, 3, 4, 5, 6],
+            itemName: 0
+          },
+          itemStyle: {
+            color: '#77bef7'
+          }
+        },
+        {
+          type: 'custom',
+          name: 'error',
+          renderItem: this.renderItem,
+          dimensions: this.dimensions,
+          encode: {
+            x: [2, 3, 4],
+            y: [1, 5, 6],
+            tooltip: [2, 1, 3, 4, 5, 6],
+            itemName: 0
+          },
+          data: this.getScatterArray(),
+          z: 100
         },
         {
           name: 'histogram',

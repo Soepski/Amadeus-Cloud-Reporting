@@ -73,5 +73,17 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
 
             return query.ToList();
         }
+
+        public int GetDosingTypePerID(int id)
+        {
+            var loggings = _context.AmadeusLoggings;
+
+            var query =
+                from l in loggings.Where(a => a.ProportioningDbid == id).Select(a => a.IfTypeofdosing)
+                select l;
+
+            return query.First();
+            
+        }
     }
 }

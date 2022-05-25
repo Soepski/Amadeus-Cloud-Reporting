@@ -18,7 +18,7 @@ import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 export class DosingDetailsComponent implements OnInit {
 
   loggings?: Logging[];
-  records: Proportioningrecord[] = [];
+  records?: Proportioningrecord[];
   articles: Article[] = [];
   loggingProps: String[] = [];
   selectedItems: String[] = [];
@@ -32,7 +32,7 @@ export class DosingDetailsComponent implements OnInit {
   dosedweightMax!: number | null;
   dosedweightMin!: number | null;
   ChartOptions: any;
-  ids: number[] = [];
+  //ids?: number[];
   plantids: number[] = [];
   selectedID!: number;
   selectedPlantID!: number;
@@ -50,7 +50,6 @@ export class DosingDetailsComponent implements OnInit {
   time: number = 0;
   selectUndefinedOptionValue:any;
 
- 
   constructor(private dataService: DataService, 
     private plantService: PlantService, 
     private articleService: ArticleService, 
@@ -75,9 +74,17 @@ export class DosingDetailsComponent implements OnInit {
 
 
   public async onChangeArticle() {
-    this.getProportioningRecordsByArticle();
-    this.selectUndefinedOptionValue = "";
-    this.resetChart();    
+    if(this.filterDateFrom == null || this.filterDateUntil == null){
+      this.getProportioningRecordsByArticle();
+      this.selectUndefinedOptionValue = "";
+      this.resetChart();  
+    }
+    if(this.filterDateFrom != null && this.filterDateUntil != null){
+      this.getProportioningRecordsByArticleAndDate();
+      this.selectUndefinedOptionValue = "";
+      this.resetChart();  
+    }
+      
   }
 
   public onChangeDate(){
@@ -128,9 +135,10 @@ export class DosingDetailsComponent implements OnInit {
     }
   }
 
-  public getIDs(): void{
-    this.dataService.getIDs().subscribe(ids => this.ids = ids.sort());
-  }
+  // public getIDs(): void{
+  //   this.dataService.getIDs().subscribe(ids => this.ids = ids.sort());
+  // }
+
 
   public getPlantIDs(): void{
     this.plantService.getPlantIDs().subscribe(ids => this.plantids = ids.sort());
@@ -150,12 +158,15 @@ export class DosingDetailsComponent implements OnInit {
 
   public async getProportioningRecordsByArticle(): Promise<any>{
     this.dataService.getProportioningRecordsByArticle(this.selectedArticle.toString()).subscribe(records => 
-      { 
-        this.ids = [];
-        this.records = records;
+      {        
         records.forEach(a => {
-            this.ids.push(a.proportioningrecordDbid);
+            this.dataService.getDosingTypePerID(a.proportioningrecordDbid).subscribe(result => {
+              console.log(result);
+              if(result == 1){a.dosingtype = "Dosing";}
+              else{a.dosingtype = "Stuffing/filling"}
+            });
         });
+        this.records = records;
       });
   }
 
@@ -165,11 +176,15 @@ export class DosingDetailsComponent implements OnInit {
     console.log(this.datePipe.transform(datefrom), this.datePipe.transform(dateuntil));
     this.dataService.getProportioningRecordsByArticleAndDate(this.selectedArticle.toString(), this.datePipe.transform(datefrom)!, this.datePipe.transform(dateuntil)!).subscribe(records => 
       { 
-        this.ids = [];
-        this.records = records;
         records.forEach(a => {
-            this.ids.push(a.proportioningrecordDbid);
-        });
+          this.dataService.getDosingTypePerID(a.proportioningrecordDbid).subscribe(result => {
+            console.log(result);
+            if(result == 1){a.dosingtype = "Dosing";}
+            else{a.dosingtype = "Stuffing/filling"}
+          });
+      });
+      this.records = records;
+        
       });
   }
 
@@ -259,6 +274,11 @@ export class DosingDetailsComponent implements OnInit {
         '#D3C1D2', //7
         '#1C0221', //8
       ],
+      grid: {
+        top: "30%",
+        right: "15%",
+        left: "10%",
+      },
       toolbox: {
         feature: {
           dataZoom: {
@@ -271,7 +291,7 @@ export class DosingDetailsComponent implements OnInit {
       legend: {
         data: [this.selectedItems[0], this.selectedItems[1], this.selectedItems[2], 
         this.selectedItems[3], this.selectedItems[4], this.selectedItems[5]],
-        left: 115
+        left: 115,
       },
       dataZoom: [
         {
@@ -380,6 +400,7 @@ export class DosingDetailsComponent implements OnInit {
         {
           name: this.selectedItems[0], //DesiredSlidePosition 1
           type: 'line',
+          showSymbol: false,
           lineStyle: {
             width: 1
           },
@@ -390,6 +411,7 @@ export class DosingDetailsComponent implements OnInit {
         {
           name: this.selectedItems[1], //NetWeight 10
           type: 'line',
+          showSymbol: false,
           yAxisIndex: 1,
           lineStyle: {
             width: 1
@@ -400,6 +422,7 @@ export class DosingDetailsComponent implements OnInit {
         {
           name: this.selectedItems[2], //c1ExpectedFlow
           type: 'line',
+          showSymbol: false,
           yAxisIndex: 2,
           lineStyle: {
             width: 1
@@ -410,6 +433,7 @@ export class DosingDetailsComponent implements OnInit {
         {
           name: this.selectedItems[3], //Iets 4
           type: 'line',
+          showSymbol: false,
           yAxisIndex: 3,
           lineStyle: {
             width: 1
@@ -420,6 +444,7 @@ export class DosingDetailsComponent implements OnInit {
         {
           name: this.selectedItems[4], //Iets 5
           type: 'line',
+          showSymbol: false,
           yAxisIndex: 4,
           lineStyle: {
             width: 1
@@ -430,6 +455,7 @@ export class DosingDetailsComponent implements OnInit {
         {
           name: this.selectedItems[5], //Iets 6
           type: 'line',
+          showSymbol: false,
           yAxisIndex: 5,
           lineStyle: {
             width: 1

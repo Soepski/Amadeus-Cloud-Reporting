@@ -16,10 +16,12 @@ export class DataService {
 
   //Data
   private readonly getAllIDs = this.baseURL + "Data/all";
-  private readonly getLoggingURL = this.baseURL + "Data/get/";
+  private readonly getLoggingURL = this.baseURL + "Data/get/"; 
   private readonly getDosingFinalsURL = this.baseURL + "Data/get/finals";
+  private readonly getDosingTypePerIDURL = this.baseURL + "Data/get/dosingtype/"
   private readonly getProportioningrecordURL = this.baseURL + "Data/get/proportioningrecords";
   private readonly getProportioningrecordByArticleURL = this.baseURL + "Data/get/proportioningrecords/";
+  
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'}),
@@ -37,6 +39,10 @@ export class DataService {
     return this.http.get<Logging[]>(this.getDosingFinalsURL);
   }
 
+  public getDosingTypePerID(id: number): Observable<number>{
+    return this.http.get<number>(this.getDosingTypePerIDURL + id);
+  }
+
   public getProportioningrecords(): Observable<Proportioningrecord[]>{
     return this.http.get<Proportioningrecord[]>(this.getProportioningrecordURL)
   }
@@ -48,5 +54,7 @@ export class DataService {
   public getProportioningRecordsByArticleAndDate(article: string, datefrom: string, dateuntil: string): Observable<Proportioningrecord[]>{
     return this.http.get<Proportioningrecord[]>(this.getProportioningrecordByArticleURL + article + "/" + datefrom + "/" + dateuntil)
   }
+
+  
 
 }

@@ -22,4 +22,5 @@ export interface Proportioningrecord {
     requiredalarmtolerance: number;
     ingredientlotid: string;
     proportioningstatus: number;
+    dosingtype: string | null;
 }

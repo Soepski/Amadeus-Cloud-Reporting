@@ -12,7 +12,7 @@ describe('DosingsGeneralComponent', () => {
     })
     .compileComponents();
   });
-
+  
   beforeEach(() => {
     fixture = TestBed.createComponent(DosingsGeneralComponent);
     component = fixture.componentInstance;

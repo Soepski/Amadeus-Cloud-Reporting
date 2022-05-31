@@ -3,6 +3,11 @@ import { Logging } from '../models/Logging';
 import { Proportioningrecord } from '../models/Proportioningrecord';
 import { DataService } from '../data.service';
 import * as echarts from 'echarts';
+import { ArticleService } from '../article.service';
+import { Article } from '../models/Article';
+import { DatePipe } from '@angular/common';
+import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 import ecStat from 'echarts-stat';
 
@@ -28,53 +33,58 @@ export class DosingsGeneralComponent implements OnInit {
   totaldosedweight: number = 0;
   totalcorrectdosings: number = 0;
   averagetime: number = 0;
+  articles: Article[] = [];
   proportioningrecords: Proportioningrecord[] = [];
+  selectedArticle!: Article;
+  filterArticle!: string;
+  filterDateFrom!: NgbDateStruct;
+  filterDateUntil!: NgbDateStruct;
+  selectUndefinedOptionValue:any;
+  closeResult = '';
+  
 
   // prettier-ignore
   dimensions = [
     'name', 'Weight', 'Weight alarm', 'Weight alarm min', 'Weight alarm max', 'Weight min', 'Weight max'
   ];
-  // prettier-ignore
-  // data = [
-  //   ['Blouse "Blue Viola"', //Dosing ID
-  //   101.88, //X-as Center //Gewicht
-  //   99.75, //Y-as Center  //Gewicht
-  //   76.75, //X-as Links   //Tolerantie alarm min
-  //   116.75, //X-as rechts //Tolerantie alarm max
-  //   69.88, //Y-as onder   //Gewicht min
-  //   119.88], //Y-as boven //Gewicht boven
-  //   ['Dress "Daisy"', 155.8, 144.03, 126.03, 156.03, 129.8, 188.8],
-  //   ['Trousers "Cutesy Classic"', 203.25, 173.56, 151.56, 187.56, 183.25, 249.25],
-  //   ['Dress "Morning Dew"', 256, 120.5, 98.5, 136.5, 236, 279],
-  //   ['Turtleneck "Dark Chocolate"', 408.89, 294.75, 276.75, 316.75, 385.89, 427.89],
-  //   ['Jumper "Early Spring"', 427.36, 430.24, 407.24, 452.24, 399.36, 461.36],
-  //   ['Breeches "Summer Mood"', 356, 135.5, 123.5, 151.5, 333, 387],
-  //   ['Dress "Mauve Chamomile"', 406, 95.5, 73.5, 111.5, 366, 429],
-  //   ['Dress "Flying Tits"', 527.36, 503.24, 488.24, 525.24, 485.36, 551.36],
-  //   ['Dress "Singing Nightingales"', 587.36, 543.24, 518.24, 555.24, 559.36, 624.36],
-  //   ['Sundress "Cloudy weather"', 603.36, 407.24, 392.24, 419.24, 581.36, 627.36],
-  //   ['Sundress "East motives"', 633.36, 477.24, 445.24, 487.24, 594.36, 652.36],
-  //   ['Sweater "Cold morning"', 517.36, 437.24, 416.24, 454.24, 488.36, 565.36],
-  //   ['Trousers "Lavender Fields"', 443.36, 387.24, 370.24, 413.24, 412.36, 484.36],
-  //   ['Jumper "Coffee with Milk"', 543.36, 307.24, 288.24, 317.24, 509.36, 574.36],
-  //   ['Blouse "Blooming Cactus"', 790.36, 277.24, 254.24, 295.24, 764.36, 818.36],
-  //   ['Sweater "Fluffy Comfort"', 790.34, 678.34, 660.34, 690.34, 762.34, 824.34]
-  // ];
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, 
+    private articleService: ArticleService, 
+    private datePipe: DatePipe,
+    private modalService: NgbModal) {}
 
   public async ngOnInit(){
     this.getLoading(); 
-    this.getProportioningrecords();
+    await this.getArticlesByProportioningRecords();
     this.dataService.getDosinFinals().subscribe(loggings => 
       {
         this.loggings = loggings;
-        this.getStats();
+        this.getStatsFromLoggings();
         this.getScatterArray();
         
       });
     var chartDom = document.getElementById('container')!;
     var myChart = echarts.init(chartDom);
+  }
+
+  public async onChangeArticle() {
+    if(this.filterDateFrom == null || this.filterDateUntil == null){
+      this.getProportioningRecordsByArticle();
+      this.selectUndefinedOptionValue = "";
+      this.resetChart();  
+    }
+    if(this.filterDateFrom != null && this.filterDateUntil != null){
+      this.getProportioningRecordsByArticleAndDate();
+      this.selectUndefinedOptionValue = "";
+      this.resetChart();  
+    }
+      
+  }
+
+  public onChangeDate(){
+    this.getProportioningRecordsByArticleAndDate();
+    this.selectUndefinedOptionValue = "";
+    this.resetChart();   
   }
 
   public setDataSource(): Array<any>{
@@ -97,10 +107,48 @@ export class DosingsGeneralComponent implements OnInit {
         this.proportioningrecords = records;
         //[time, amount], [time, amount]
         this.setOptionsBarHistogram();
-        this.getStats();
+        this.getStatsFromLoggings();
       });
   }
-  public getStats(): void{
+
+  public getArticlesByProportioningRecords(): void{
+    this.articleService.getArticlesByProportioningRecords().subscribe(articles => this.articles = articles);
+  }
+
+  public async getProportioningRecordsByArticle(): Promise<any>{
+    this.dataService.getProportioningRecordsByArticle(this.selectedArticle.toString()).subscribe(records => 
+      {        
+        records.forEach(a => {
+            this.dataService.getDosingTypePerID(a.proportioningrecordDbid).subscribe(result => {
+              console.log(result);
+              if(result == 1){a.dosingtype = "Dosing";}
+              else{a.dosingtype = "Stuffing/filling"}
+            });
+        });
+        this.proportioningrecords = records;
+        console.log(this.proportioningrecords);
+      });
+  }
+
+  public async getProportioningRecordsByArticleAndDate(): Promise<any>{
+    let datefrom = new Date(this.filterDateFrom.year, this.filterDateFrom.month - 1, this.filterDateFrom.day)
+    let dateuntil = new Date(this.filterDateUntil.year, this.filterDateUntil.month - 1, this.filterDateUntil.day)
+    console.log(this.datePipe.transform(datefrom), this.datePipe.transform(dateuntil));
+    this.dataService.getProportioningRecordsByArticleAndDate(this.selectedArticle.toString(), this.datePipe.transform(datefrom)!, this.datePipe.transform(dateuntil)!).subscribe(records => 
+      { 
+        records.forEach(a => {
+          this.dataService.getDosingTypePerID(a.proportioningrecordDbid).subscribe(result => {
+            console.log(result);
+            if(result == 1){a.dosingtype = "Dosing";}
+            else{a.dosingtype = "Stuffing/filling"}
+          });
+      });
+      this.proportioningrecords = records;
+        
+      });
+  }
+
+  public getStatsFromLoggings(): void{
     //total dosings
     this.totaldosings = this.loggings.length;
 
@@ -115,6 +163,38 @@ export class DosingsGeneralComponent implements OnInit {
     //total correct dosings
     let correctdosings: number = 0;
     this.loggings.forEach(function (arrayitem){
+      if (arrayitem.ifDosedWeight! >= arrayitem.ifSetpoint! - ((arrayitem.ifSetpoint! / 100)  * arrayitem.ifAccuracy!)
+          && arrayitem.ifDosedWeight! <= arrayitem.ifSetpoint! + ((arrayitem.ifSetpoint! / 100)  * arrayitem.ifAccuracy!))
+      {
+          correctdosings = correctdosings + 1
+      }
+    })
+    this.totalcorrectdosings = correctdosings;
+
+    //average dosing time
+    let totalmicroseconds: number = 0;
+    this.loggings.forEach(function (arrayitem){
+      let microseconds = arrayitem.ifDosedTime7! + (arrayitem.ifDosedTime6! * 1000000) + ((arrayitem.ifDosedTime5! * 60) * 1000000);
+      totalmicroseconds = totalmicroseconds + microseconds;
+    })
+    let miliseconds: number = totalmicroseconds / 1000;
+  }
+
+  public getStatsFromProportiongingrecords(): void{
+    //total dosings
+    this.totaldosings = this.proportioningrecords.length;
+
+    //total dosed weight
+    let totaldosedweight: number = 0;
+    this.proportioningrecords.forEach(function (arrayitem)
+    {
+      totaldosedweight! = totaldosedweight! + arrayitem.actualamount!
+    })
+    this.totaldosedweight = Math.round(totaldosedweight);
+
+    //total correct dosings
+    let correctdosings: number = 0;
+    this.proportioningrecords.forEach(function (arrayitem){
       if (arrayitem.ifDosedWeight! >= arrayitem.ifSetpoint! - ((arrayitem.ifSetpoint! / 100)  * arrayitem.ifAccuracy!)
           && arrayitem.ifDosedWeight! <= arrayitem.ifSetpoint! + ((arrayitem.ifSetpoint! / 100)  * arrayitem.ifAccuracy!))
       {
@@ -159,6 +239,12 @@ export class DosingsGeneralComponent implements OnInit {
 
     this.proportioningrecords.forEach(element => {
       //let arrayItem: Array<any> = [];
+      //Gewicht
+      //Gewicht
+      //Tolerantie alarm min
+      //Tolerantie alarm max
+      //Gewicht min
+      //Gewicht boven
       arrayComplete.push([element.articleName + " " + element.proportioningrecordDbid,
         element.actualamount,
         element.actualamount,
@@ -178,6 +264,7 @@ export class DosingsGeneralComponent implements OnInit {
     api: echarts.CustomSeriesRenderItemAPI
   ): echarts.CustomSeriesRenderItemReturn {
     const group: echarts.CustomSeriesRenderItemReturn = {
+      
       type: 'group',
       children: []
     };
@@ -347,7 +434,6 @@ export class DosingsGeneralComponent implements OnInit {
       dataset: [
         {
           source: 
-            //[time, amount]
             this.setDataSource()         
         },
         {
@@ -365,6 +451,14 @@ export class DosingsGeneralComponent implements OnInit {
         }
       ],
       tooltip: {},
+      dataZoom: [
+        {
+          type: 'slider'
+        },
+        {
+          type: 'inside'
+        }
+      ],
       grid: [
         {
           top: '50%',
@@ -413,7 +507,7 @@ export class DosingsGeneralComponent implements OnInit {
         }
       ],
       series: [
-        // {
+        // {  
         //   name: 'origianl scatter',
         //   type: 'scatter',
         //   xAxisIndex: 0,
@@ -481,5 +575,25 @@ export class DosingsGeneralComponent implements OnInit {
     
   }
   
+  resetChart(){
+    this.ChartOptions = {};
+  }
   
+  open(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 }

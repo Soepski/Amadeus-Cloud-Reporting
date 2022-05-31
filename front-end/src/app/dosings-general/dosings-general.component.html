@@ -1,6 +1,9 @@
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
 <script src="./index.js"></script>
+<div class="modalbuttonfilter">
+    <button class="btn btn-outline-primary" (click)="open(content)">Adjust filter</button>
+</div>
 
 <div class="stats">
     <h4>Stats:</h4>
@@ -10,9 +13,39 @@
     <label style="font-weight: bold;">Average dosing time:</label> {{averagetime}}
 </div>
 
-
 <div class="col-md-12" style="margin-top: 3%;">
     <div echarts [options]="ChartOptions" id="container" class="demo-chart"></div>
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Adjust filter</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label>Article</label>
+          <div class="input-group">
+            <select [(ngModel)]="selectedArticle" name="article" class="form-control" (change)="onChangeArticle()">
+              
+              <option *ngFor="let article of articles" [value]="article.articleId">{{article.articleId}}</option>
+            </select>
+          </div>
+          <label>Date from</label>
+          <div class="input-group">
+            <input [(ngModel)]="filterDateFrom" (change)="onChangeDate()" type="Date" id="dataFrom" class="form-control" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          </div>
+          <label>Date until</label>
+          <div class="input-group">
+            <input [(ngModel)]="filterDateUntil" (change)="onChangeDate()" type="Date" id="dateUntil" class="form-control" name="dp1" ngbDatepicker #dp1="ngbDatepicker">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+  </ng-template>
 
   

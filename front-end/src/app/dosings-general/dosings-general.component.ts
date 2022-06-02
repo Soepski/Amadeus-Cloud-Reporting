@@ -6,7 +6,7 @@ import * as echarts from 'echarts';
 import { ArticleService } from '../article.service';
 import { Article } from '../models/Article';
 import { DatePipe } from '@angular/common';
-import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateStruct, NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 import ecStat from 'echarts-stat';
@@ -54,26 +54,37 @@ export class DosingsGeneralComponent implements OnInit {
     private modalService: NgbModal) {}
 
   public async ngOnInit(){
-    this.getLoading(); 
-    await this.getArticlesByProportioningRecords();
-    this.dataService.getDosinFinals().subscribe(loggings => 
-      {
-        this.loggings = loggings;
-        this.getStatsFromLoggings();
-        this.getScatterArray();
+    //this.getLoading(); 
+    // await this.getProportioningrecords();
+    // this.dataService.getDosinFinals().subscribe(loggings => 
+    //   {
+    //     this.loggings = loggings;
+    //     this.getStatsFromProportiongingrecords();
+    //     this.getScatterArray();
         
-      });
-    var chartDom = document.getElementById('container')!;
-    var myChart = echarts.init(chartDom);
+    //   });
+    // var chartDom = document.getElementById('container')!;
+    // var myChart = echarts.init(chartDom);
+    await this.getArticlesByProportioningRecords();
+    // let datenow = new Date();
+    // let datepast = new Date(datenow);
+    // datepast.setDate(datepast.getDate() - 7);
+    // let dateuntil = new NgbDate(datenow.getFullYear(), datenow.getMonth(), datenow.getDay());
+    // let datefrom = new NgbDate(datepast.getFullYear(), datepast.getMonth(), datepast.getDay());
+    // this.filterDateUntil = dateuntil;
+    // this.filterDateFrom = datefrom;
+  
   }
 
   public async onChangeArticle() {
     if(this.filterDateFrom == null || this.filterDateUntil == null){
+      this.getLoading();
       this.getProportioningRecordsByArticle();
       this.selectUndefinedOptionValue = "";
       this.resetChart();  
     }
     if(this.filterDateFrom != null && this.filterDateUntil != null){
+      this.getLoading();
       this.getProportioningRecordsByArticleAndDate();
       this.selectUndefinedOptionValue = "";
       this.resetChart();  
@@ -120,25 +131,24 @@ export class DosingsGeneralComponent implements OnInit {
       {        
         records.forEach(a => {
             this.dataService.getDosingTypePerID(a.proportioningrecordDbid).subscribe(result => {
-              console.log(result);
               if(result == 1){a.dosingtype = "Dosing";}
               else{a.dosingtype = "Stuffing/filling"}
             });
         });
         this.proportioningrecords = records;
-        console.log(this.proportioningrecords);
+        //[time, amount], [time, amount]
+        this.setOptionsBarHistogram();
+        this.getStatsFromProportiongingrecords();
       });
   }
 
   public async getProportioningRecordsByArticleAndDate(): Promise<any>{
     let datefrom = new Date(this.filterDateFrom.year, this.filterDateFrom.month - 1, this.filterDateFrom.day)
     let dateuntil = new Date(this.filterDateUntil.year, this.filterDateUntil.month - 1, this.filterDateUntil.day)
-    console.log(this.datePipe.transform(datefrom), this.datePipe.transform(dateuntil));
     this.dataService.getProportioningRecordsByArticleAndDate(this.selectedArticle.toString(), this.datePipe.transform(datefrom)!, this.datePipe.transform(dateuntil)!).subscribe(records => 
       { 
         records.forEach(a => {
           this.dataService.getDosingTypePerID(a.proportioningrecordDbid).subscribe(result => {
-            console.log(result);
             if(result == 1){a.dosingtype = "Dosing";}
             else{a.dosingtype = "Stuffing/filling"}
           });
@@ -195,21 +205,27 @@ export class DosingsGeneralComponent implements OnInit {
     //total correct dosings
     let correctdosings: number = 0;
     this.proportioningrecords.forEach(function (arrayitem){
-      if (arrayitem.ifDosedWeight! >= arrayitem.ifSetpoint! - ((arrayitem.ifSetpoint! / 100)  * arrayitem.ifAccuracy!)
-          && arrayitem.ifDosedWeight! <= arrayitem.ifSetpoint! + ((arrayitem.ifSetpoint! / 100)  * arrayitem.ifAccuracy!))
+      if (arrayitem.actualamount! >= arrayitem.requestedamount! - ((arrayitem.requestedamount! / 100)  * arrayitem.requiredtolerance!)
+          && arrayitem.actualamount! <= arrayitem.requestedamount! + ((arrayitem.requestedamount! / 100)  * arrayitem.requiredtolerance!))
       {
           correctdosings = correctdosings + 1
       }
     })
     this.totalcorrectdosings = correctdosings;
 
-    //average dosing time
-    let totalmicroseconds: number = 0;
-    this.loggings.forEach(function (arrayitem){
-      let microseconds = arrayitem.ifDosedTime7! + (arrayitem.ifDosedTime6! * 1000000) + ((arrayitem.ifDosedTime5! * 60) * 1000000);
-      totalmicroseconds = totalmicroseconds + microseconds;
+    //total dosing time
+    let totalmilliseconds: number = 0;
+    this.proportioningrecords.forEach(function (arrayitem){
+      let starttime = new Date(arrayitem.startTime);
+      let endtime = new Date( arrayitem.endTime);
+
+      var time = endtime.getTime() - starttime.getTime(); 
+      totalmilliseconds = totalmilliseconds + time; 
     })
-    let miliseconds: number = totalmicroseconds / 1000;
+    let averagemilliseconds = totalmilliseconds / (this.proportioningrecords.length - 1)
+
+    //average in seconds
+    this.averagetime = Math.round((averagemilliseconds / 1000) * 100) / 100;
   }
 
   public getTimeOfDosing(prop: Proportioningrecord): number{
@@ -255,7 +271,6 @@ export class DosingsGeneralComponent implements OnInit {
       ])
       
     });
-    console.log(arrayComplete);
     return arrayComplete;
   }
 
@@ -507,14 +522,6 @@ export class DosingsGeneralComponent implements OnInit {
         }
       ],
       series: [
-        // {  
-        //   name: 'origianl scatter',
-        //   type: 'scatter',
-        //   xAxisIndex: 0,
-        //   yAxisIndex: 0,
-        //   encode: { tooltip: [0, 1] },
-        //   datasetIndex: 0
-        // },
         {
           type: 'scatter',
           name: 'error',

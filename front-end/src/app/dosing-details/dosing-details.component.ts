@@ -173,12 +173,11 @@ export class DosingDetailsComponent implements OnInit {
   public async getProportioningRecordsByArticleAndDate(): Promise<any>{
     let datefrom = new Date(this.filterDateFrom.year, this.filterDateFrom.month - 1, this.filterDateFrom.day)
     let dateuntil = new Date(this.filterDateUntil.year, this.filterDateUntil.month - 1, this.filterDateUntil.day)
-    console.log(this.datePipe.transform(datefrom), this.datePipe.transform(dateuntil));
+    console.log(datefrom, dateuntil);
     this.dataService.getProportioningRecordsByArticleAndDate(this.selectedArticle.toString(), this.datePipe.transform(datefrom)!, this.datePipe.transform(dateuntil)!).subscribe(records => 
       { 
         records.forEach(a => {
           this.dataService.getDosingTypePerID(a.proportioningrecordDbid).subscribe(result => {
-            console.log(result);
             if(result == 1){a.dosingtype = "Dosing";}
             else{a.dosingtype = "Stuffing/filling"}
           });

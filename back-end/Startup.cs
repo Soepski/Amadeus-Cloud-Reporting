@@ -33,6 +33,12 @@ namespace Amadeus_Cloud_Reporting_Back_end
         {
             services.AddControllers();
 
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Amadeus_Cloud_Reporting_Back_end", Version = "v1" });
@@ -46,9 +52,9 @@ namespace Amadeus_Cloud_Reporting_Back_end
             services.AddCors(options => options.AddPolicy("CorsPolicy",
                 builder =>
                 {
-                    builder.AllowAnyMethod().AllowAnyHeader()
-                           .WithOrigins("http://localhost:4200")
-                           .AllowCredentials();
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
                 }));
 
             services.AddScoped<IDataRepo, DataRepo>();

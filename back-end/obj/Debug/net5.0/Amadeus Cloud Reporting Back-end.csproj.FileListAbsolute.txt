@@ -98,5 +98,10 @@ C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Debug\net5.0\
 C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Debug\net5.0\ref\Amadeus Cloud Reporting Back-end.dll
 C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Debug\net5.0\Amadeus Cloud Reporting Back-end.pdb
 C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Debug\net5.0\Amadeus Cloud Reporting Back-end.genruntimeconfig.cache
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Debug\net5.0\ref\Amadeus Cloud Reporting Back-end.dll
 C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Debug\net5.0\Amadeus Cloud Reporting Back-end.csproj.AssemblyReference.cache
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Debug\net5.0\ref\Amadeus Cloud Reporting Back-end.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Debug\net5.0\Publish\AmadeusCloudReportingAPI\web.config
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Debug\net5.0\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.deps.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Debug\net5.0\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.runtimeconfig.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Debug\net5.0\Publish\AmadeusCloudReportingAPI\appsettings.Development.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Debug\net5.0\Publish\AmadeusCloudReportingAPI\appsettings.json

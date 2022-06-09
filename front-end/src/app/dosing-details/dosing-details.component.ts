@@ -17,7 +17,7 @@ import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 })
 export class DosingDetailsComponent implements OnInit {
 
-  loggings?: Logging[];
+  loggings?: Logging[] | null;
   records?: Proportioningrecord[];
   articles: Article[] = [];
   loggingProps: String[] = [];
@@ -66,9 +66,10 @@ export class DosingDetailsComponent implements OnInit {
     await this.getArticlesByProportioningRecords();
   }
 
-  public async onChangeID() {
+  public async onChangeID(id: number) {
+    this.selectedID = id;
     this.getLoading();
-    this.loggings = [];
+    this.loggings = null;
     this.getLogging(this.selectedID);
   }
 
@@ -77,11 +78,13 @@ export class DosingDetailsComponent implements OnInit {
     if(this.filterDateFrom == null || this.filterDateUntil == null){
       this.getProportioningRecordsByArticle();
       this.selectUndefinedOptionValue = "";
+      this.loggings = null;
       this.resetChart();  
     }
     if(this.filterDateFrom != null && this.filterDateUntil != null){
       this.getProportioningRecordsByArticleAndDate();
       this.selectUndefinedOptionValue = "";
+      this.loggings = null;
       this.resetChart();  
     }
       
@@ -90,6 +93,7 @@ export class DosingDetailsComponent implements OnInit {
   public onChangeDate(){
     this.getProportioningRecordsByArticleAndDate();
     this.selectUndefinedOptionValue = "";
+    this.loggings = [];
     this.resetChart();   
   }
   
@@ -191,7 +195,8 @@ export class DosingDetailsComponent implements OnInit {
     this.dataService.getLoggings(this.selectedID).subscribe(result => 
       {this.loggings = result; 
         this.loggingProps = Object.keys(this.loggings[0]); 
-        this.selectedItems = ["c3DesiredSlidePosition", "ifNetWeight10", "c1ExpectedFlow", "ifNetWeight1", "c1SlideOpening", "c1Productactivationfactor"];
+        this.selectedItems = ["c3DesiredSlidePosition", "ifNetWeight1"];
+        //  "c1ExpectedFlow", "ifNetWeight10", "c1SlideOpening", "c1Productactivationfactor"];
         if(this.loggings[0].ifTypeofdosing == 1){this.typeofdosing = "Dosing";}
         else{this.typeofdosing = "Stuffing/filling";}
         this.setpoint = this.loggings[0].ifSetpoint;
@@ -236,14 +241,41 @@ export class DosingDetailsComponent implements OnInit {
     for(var i = 0; i <= steps; i++){
       this.timeArray.push(Math.round((this.timeArray[this.timeArray.length - 1] + increase) * 100) / 100);
     }
+  }
 
+  setGraphTitle(): string{
+    let title = "";
+
+    this.selectedItems.forEach(element => {
+      if(this.selectedItems.indexOf(element.toString()) == this.selectedItems.length - 1){
+        title = title += element;
+      }
+      else{
+        title = title += element + ", ";
+      }
+    });
+
+    return title;
+  }
+
+  setLegendToColor(selectedItem: String, color: string): string{
+
+    console.log(selectedItem);
+
+    let tempColor = "";
+
+    if(selectedItem === undefined){
+      return "#FFFFFF00"
+    }
+    else{
+      return color
+    } 
   }
 
   setOptions() {
     this.ChartOptions = {
       title: {
-        text: this.selectedItems[0] + ", " + this.selectedItems[1] + ", " + this.selectedItems[2]
-        + ", " + this.selectedItems[3] + ", " + this.selectedItems[4] + ", " + this.selectedItems[5],
+        text: this.setGraphTitle(),
         left: 'center',
         padding: [
           30,  // up
@@ -319,7 +351,7 @@ export class DosingDetailsComponent implements OnInit {
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#0088FE',
+              color: this.setLegendToColor(this.selectedItems[0], '#0088FE')  
               
 
             }
@@ -335,7 +367,7 @@ export class DosingDetailsComponent implements OnInit {
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#8BC500'
+              color: this.setLegendToColor(this.selectedItems[1], '#8BC500') 
             }
           }
         },
@@ -348,7 +380,7 @@ export class DosingDetailsComponent implements OnInit {
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#FF5714'
+              color: this.setLegendToColor(this.selectedItems[2], '#FF5714') 
             }
           }
         },
@@ -362,7 +394,7 @@ export class DosingDetailsComponent implements OnInit {
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#E9F100'
+              color: this.setLegendToColor(this.selectedItems[3], '#E9F100')
             }
           }
         },
@@ -376,7 +408,7 @@ export class DosingDetailsComponent implements OnInit {
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#001021'
+              color: this.setLegendToColor(this.selectedItems[4], '#001021')
             }
           }
         },
@@ -390,7 +422,7 @@ export class DosingDetailsComponent implements OnInit {
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#EE80A6'
+              color: this.setLegendToColor(this.selectedItems[5], '#EE80A6')
             }
           }
         }

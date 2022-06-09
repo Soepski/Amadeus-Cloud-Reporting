@@ -10,7 +10,7 @@ export class ArticleService {
 
   constructor(private http: HttpClient) { }
   //General
-  private readonly baseURL = "https://localhost:44397/";
+  private readonly baseURL = "http://10.14.0.236:5600/";
 
   //Data
   private readonly getArticlesURL = this.baseURL + "Article/all";

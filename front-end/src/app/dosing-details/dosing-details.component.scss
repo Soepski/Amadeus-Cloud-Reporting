@@ -1,4 +1,3 @@
-
 .modalbuttonfilter {
   margin-right: 2%;
   display: inline-block;
@@ -14,33 +13,9 @@
   display: flex;
 }
 
-.wrapper {
-  visibility: visible;
-  z-index: 9;
-  width: 80%;
-  // margin: auto; 
-  padding-left: 2%;
-  overflow: inherit;
-}
-
-.first {
-  margin-right: 4%;
-  width: 50%;
-  float: left;
-}
-
-.second {
-  width: 40%;
-  float: left;
-}
-
-.third {
-  width: 40%;
-  float: left;
-}
 
 .stattable {
-  padding: 20px;
+  width: 100%
 }
 
 button.calendar,
@@ -103,5 +78,12 @@ ngb-carousel .picsum-img-wrapper>img {
 }
 
 .chart{
-  margin-top: 12%;
+  margin-top: 3%;
 }
+
+.idstable{
+  width: 100%;
+}
+
+
+

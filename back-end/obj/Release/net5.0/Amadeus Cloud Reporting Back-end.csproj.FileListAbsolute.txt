@@ -1,0 +1,66 @@
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\appsettings.Development.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\appsettings.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Amadeus Cloud Reporting Back-end.exe
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Amadeus Cloud Reporting Back-end.deps.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Amadeus Cloud Reporting Back-end.runtimeconfig.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Amadeus Cloud Reporting Back-end.runtimeconfig.dev.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Amadeus Cloud Reporting Back-end.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\ref\Amadeus Cloud Reporting Back-end.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Amadeus Cloud Reporting Back-end.pdb
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\AutoMapper.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Humanizer.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Microsoft.EntityFrameworkCore.Relational.Design.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Microsoft.Extensions.Options.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Microsoft.OpenApi.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Npgsql.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Npgsql.EntityFrameworkCore.PostgreSQL.Design.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\System.Data.SqlClient.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\runtimes\win-arm64\native\sni.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\runtimes\win-x64\native\sni.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\runtimes\win-x86\native\sni.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.csproj.AssemblyReference.cache
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.AssemblyInfoInputs.cache
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.AssemblyInfo.cs
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.csproj.CoreCompileInputs.cache
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\scopedcss\bundle\Amadeus Cloud Reporting Back-end.styles.css
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\staticwebassets\Amadeus Cloud Reporting Back-end.StaticWebAssets.Manifest.cache
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.RazorTargetAssemblyInfo.cache
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.csproj.CopyComplete
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\ref\Amadeus Cloud Reporting Back-end.dll
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.pdb
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\Amadeus Cloud Reporting Back-end.genruntimeconfig.cache
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\web.config
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.deps.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.runtimeconfig.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\appsettings.Development.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\appsettings.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\web.config
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.deps.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.runtimeconfig.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\appsettings.Development.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\appsettings.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\web.config
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.deps.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.runtimeconfig.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\appsettings.Development.json
+C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\bin\Release\net5.0\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\appsettings.json

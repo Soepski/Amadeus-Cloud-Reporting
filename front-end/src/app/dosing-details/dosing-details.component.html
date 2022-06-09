@@ -23,7 +23,7 @@
 
       <!--Dosing ID table-->
       <div class="col-6">
-        <div class="form-group first" *ngIf="records">
+        <div class="form-group first" *ngIf="records" style="overflow-y: auto; height: 180px">
           <table class="idstable">
             <th>ID</th><th>Article</th><th>Dosing type</th><th>Setpoint</th><th>Actual</th>
             <tr *ngFor="let record of records">

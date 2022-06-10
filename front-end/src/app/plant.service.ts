@@ -9,7 +9,10 @@ export class PlantService {
 
   constructor(private http: HttpClient) { }
   //General
-  private readonly baseURL = "http://10.14.0.205:5600/";
+  //Server
+  //private readonly baseURL = "http://10.14.0.205:5600/";
+  //Test environment
+  private readonly baseURL = "https://localhost:44397/";
 
   //Data
   private readonly getAllIDs = this.baseURL + "Plant/all";

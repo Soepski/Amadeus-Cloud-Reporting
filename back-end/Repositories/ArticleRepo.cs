@@ -41,11 +41,11 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
         public List<AmadeusArticle> GetArticlesByProportioningRecords()
         {
             var articles = _context.AmadeusArticles;
-            var proportioningrecords = _context.AmadeusProportioningrecords;
+            var proportionings = _context.AmadeusProportionings;
 
             var query =
-                from p in proportioningrecords
-                join a in articles on p.ArticleId equals a.ArticleId
+                from p in proportionings
+                join a in articles on p.ArticleDbid equals a.ArticleDbid
 
                 select a;
 

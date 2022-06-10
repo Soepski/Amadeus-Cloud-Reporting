@@ -79,6 +79,10 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
                 {
                     logging.IfNetWeight11 = 0;
                 }
+                if (logging.C3DesiredSlidePosition.ToString() == "NaN")
+                {
+                    logging.C3DesiredSlidePosition = 0;
+                }
 
             }
             ICollection<LoggingViewModel> loggingViewModels = _mapper.Map<ICollection<LoggingViewModel>>(loggings);
@@ -125,6 +129,20 @@ namespace Amadeus_Cloud_Reporting_Back_end.Logic
             int dosingtype = _repo.GetDosingTypePerID(id);
 
             return dosingtype;
+        }
+
+        public int GetTotalProportioningCount()
+        {
+            int propcount = _repo.GetTotalProportioningCount();
+
+            return propcount;
+        }
+
+        public int GetTotalProportioningCountByArticle(string article)
+        {
+            int propcount = _repo.GetTotalProportioningCountByArticle(article);
+
+            return propcount;
         }
     }
 }

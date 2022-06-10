@@ -14,5 +14,7 @@ namespace Amadeus_Cloud_Reporting_Back_end.Repositories
         public ICollection<AmadeusProportioningrecord> GetProportioningRecordsByArticle(string article);
         public ICollection<AmadeusProportioningrecord> GetProportioningRecordsByArticleAndDate(string article, DateTime datefrom, DateTime dateuntil);
         public int GetDosingTypePerID(int id);
+        public int GetTotalProportioningCount();
+        public int GetTotalProportioningCountByArticle(string article);
     }
 }

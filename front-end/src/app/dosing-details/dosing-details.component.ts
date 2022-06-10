@@ -36,19 +36,20 @@ export class DosingDetailsComponent implements OnInit {
   plantids: number[] = [];
   selectedID!: number;
   selectedPlantID!: number;
-  selectedArticle!: Article;
+  selectedArticle!: Article | null;
   closeResult = '';
-  filterCustomer!: string;
-  filterPlant!: string;
-  filterArticle!: string;
-  filterDateFrom!: NgbDateStruct;
-  filterDateUntil!: NgbDateStruct;
+  // filterCustomer!: string;
+  // filterPlant!: string;
+  // filterArticle!: string;
+  filterDateFrom!: NgbDateStruct | null;
+  filterDateUntil!: NgbDateStruct | null;
   timeArray?: Array<number>;
   searchExpr: string = "";
   searchMode: Array<any> = [];
   total!: number;
   time: number = 0;
   selectUndefinedOptionValue:any;
+  totalPropCount!: number;
 
   constructor(private dataService: DataService, 
     private plantService: PlantService, 
@@ -64,6 +65,8 @@ export class DosingDetailsComponent implements OnInit {
     await this.getPlantIDs();
     //Get all articles
     await this.getArticlesByProportioningRecords();
+    //Get first 100 records
+    await this.getProportioningrecords();
   }
 
   public async onChangeID(id: number) {
@@ -93,10 +96,35 @@ export class DosingDetailsComponent implements OnInit {
   public onChangeDate(){
     this.getProportioningRecordsByArticleAndDate();
     this.selectUndefinedOptionValue = "";
-    this.loggings = [];
+    this.loggings = null;
     this.resetChart();   
   }
   
+  deleteArticleFilter(){
+    this.selectedArticle = null;
+    this.getProportioningrecords();
+    this.selectUndefinedOptionValue = "";
+    this.loggings = null;
+    this.resetChart();   
+  }
+
+  deleteDateFromFilter(){
+    this.filterDateFrom = null;
+    this.getProportioningRecordsByArticle();
+    this.selectUndefinedOptionValue = "";
+    this.loggings = null;
+    this.resetChart();   
+  }
+
+  deleteDateUntilFilter(){
+    this.filterDateUntil = null;
+    this.getProportioningRecordsByArticle();
+    this.selectUndefinedOptionValue = "";
+    this.loggings = null;
+    this.resetChart();   
+  }
+
+
   public checkboxClick(prop: CheckboxItem){
 
     if(prop.isChecked == false){
@@ -160,12 +188,35 @@ export class DosingDetailsComponent implements OnInit {
     this.articleService.getArticlesByProportioningRecords().subscribe(articles => this.articles = articles);
   }
 
+  public getTotalProportioningCount(): void{
+    this.dataService.getTotalProportioningCount().subscribe(count => this.totalPropCount = count);
+  }
+
+  public getTotalProportioningCountByArticle(article: string): void{
+    this.dataService.getTotalProportioningCountByArticle(article).subscribe(count => this.totalPropCount = count);
+  }
+
+  public getProportioningrecords(): void{
+    this.dataService.getProportioningrecords().subscribe(records => {
+      this.getTotalProportioningCount();
+      records.forEach(a => {
+        this.dataService.getDosingTypePerID(a.proportioningrecordDbid).subscribe(result => {
+          a.actualamount = Math.round(a.actualamount * 1000) / 1000;
+          if(result == 1){a.dosingtype = "Dosing";}
+          else{a.dosingtype = "Stuffing/filling"}
+        });
+    });
+      this.records = records
+    });
+    
+  }
+
   public async getProportioningRecordsByArticle(): Promise<any>{
-    this.dataService.getProportioningRecordsByArticle(this.selectedArticle.toString()).subscribe(records => 
-      {        
+    this.dataService.getProportioningRecordsByArticle(this.selectedArticle!.toString()).subscribe(records => {
+        this.getTotalProportioningCountByArticle(this.selectedArticle!.toString());        
         records.forEach(a => {
             this.dataService.getDosingTypePerID(a.proportioningrecordDbid).subscribe(result => {
-              console.log(result);
+              a.actualamount = Math.round(a.actualamount * 1000) / 1000;
               if(result == 1){a.dosingtype = "Dosing";}
               else{a.dosingtype = "Stuffing/filling"}
             });
@@ -175,12 +226,12 @@ export class DosingDetailsComponent implements OnInit {
   }
 
   public async getProportioningRecordsByArticleAndDate(): Promise<any>{
-    let datefrom = new Date(this.filterDateFrom.year, this.filterDateFrom.month - 1, this.filterDateFrom.day)
-    let dateuntil = new Date(this.filterDateUntil.year, this.filterDateUntil.month - 1, this.filterDateUntil.day)
-    console.log(datefrom, dateuntil);
-    this.dataService.getProportioningRecordsByArticleAndDate(this.selectedArticle.toString(), this.datePipe.transform(datefrom)!, this.datePipe.transform(dateuntil)!).subscribe(records => 
-      { 
-        records.forEach(a => {
+    let datefrom = new Date(this.filterDateFrom!.year, this.filterDateFrom!.month - 1, this.filterDateFrom!.day)
+    let dateuntil = new Date(this.filterDateUntil!.year, this.filterDateUntil!.month - 1, this.filterDateUntil!.day)
+    this.dataService.getProportioningRecordsByArticleAndDate(this.selectedArticle!.toString(), this.datePipe.transform(datefrom)!, this.datePipe.transform(dateuntil)!).subscribe(records => { 
+      this.getTotalProportioningCountByArticle(this.selectedArticle!.toString());  
+      records.forEach(a => {
+        a.actualamount = Math.round(a.actualamount * 1000) / 1000;
           this.dataService.getDosingTypePerID(a.proportioningrecordDbid).subscribe(result => {
             if(result == 1){a.dosingtype = "Dosing";}
             else{a.dosingtype = "Stuffing/filling"}
@@ -201,7 +252,8 @@ export class DosingDetailsComponent implements OnInit {
         else{this.typeofdosing = "Stuffing/filling";}
         this.setpoint = this.loggings[0].ifSetpoint;
         this.accuracy = this.loggings[0].ifAccuracy;
-        this.dosedweight = this.loggings[this.loggings.length - 1].ifDosedWeight;
+        let tempweight =  this.loggings[this.loggings.length - 1].ifDosedWeight;
+        this.dosedweight = Math.round(tempweight! * 1000) / 1000;
         this.calculateTimeToSecond();
         this.mapDosingTime();
         this.calculateMargins();
@@ -260,8 +312,6 @@ export class DosingDetailsComponent implements OnInit {
 
   setLegendToColor(selectedItem: String, color: string): string{
 
-    console.log(selectedItem);
-
     let tempColor = "";
 
     if(selectedItem === undefined){
@@ -308,7 +358,7 @@ export class DosingDetailsComponent implements OnInit {
       grid: {
         top: "30%",
         right: "15%",
-        left: "10%",
+        left: "10%"
       },
       toolbox: {
         feature: {

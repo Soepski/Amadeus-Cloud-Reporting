@@ -135,7 +135,41 @@ namespace Amadeus_Cloud_Reporting_Back_end.Controllers
             }
             catch (Exception ex)
             {
-                return this.Content(ex.Message + " while getting dpsing type from logging");
+                return this.Content(ex.Message + " while getting dosing type from logging");
+            }
+        }
+
+        //Get the count of proportionings
+        [HttpGet]
+        [Route("get/proportioningcount")]
+        public async Task<ActionResult<int>> GetTotalProportioningCount()
+        {
+            try
+            {
+                int propcount = _logic.GetTotalProportioningCount();
+
+                return Ok(propcount);
+            }
+            catch (Exception ex)
+            {
+                return this.Content(ex.Message + " while getting count of proportionings");
+            }
+        }
+
+        //Get the count of proportionings by article
+        [HttpGet]
+        [Route("get/proportioningcount/{article}")]
+        public async Task<ActionResult<int>> GetTotalProportioningCountByArticle(string article)
+        {
+            try
+            {
+                int propcount = _logic.GetTotalProportioningCountByArticle(article);
+
+                return Ok(propcount);
+            }
+            catch (Exception ex)
+            {
+                return this.Content(ex.Message + " while getting count of proportionings by article");
             }
         }
     }

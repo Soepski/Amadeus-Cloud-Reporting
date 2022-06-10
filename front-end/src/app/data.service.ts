@@ -12,7 +12,10 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
   //General
-  private readonly baseURL = "http://10.14.0.205:5600/";
+  //Server
+  //private readonly baseURL = "http://10.14.0.205:5600/";
+  //Test environment
+  private readonly baseURL = "https://localhost:44397/";
 
   //Data
   private readonly getAllIDs = this.baseURL + "Data/all";
@@ -21,6 +24,8 @@ export class DataService {
   private readonly getDosingTypePerIDURL = this.baseURL + "Data/get/dosingtype/"
   private readonly getProportioningrecordURL = this.baseURL + "Data/get/proportioningrecords";
   private readonly getProportioningrecordByArticleURL = this.baseURL + "Data/get/proportioningrecords/";
+  private readonly getTotalProportioningCountURL = this.baseURL + "Data/get/proportioningcount";
+  private readonly getTotalProportioningCountByArticleURL = this.baseURL + "Data/get/proportioningcount/";
   
 
   httpOptions = {
@@ -55,6 +60,13 @@ export class DataService {
     return this.http.get<Proportioningrecord[]>(this.getProportioningrecordByArticleURL + article + "/" + datefrom + "/" + dateuntil)
   }
 
+  public getTotalProportioningCount(): Observable<number>{
+    return this.http.get<number>(this.getTotalProportioningCountURL);
+  }
+
+  public getTotalProportioningCountByArticle(article: string): Observable<number>{
+    return this.http.get<number>(this.getTotalProportioningCountByArticleURL + article);
+  }
   
 
 }

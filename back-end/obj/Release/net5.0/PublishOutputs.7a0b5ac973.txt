@@ -1,21 +1,6 @@
 C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Amadeus Cloud Reporting Back-end.exe
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\web.config
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\web.config
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\web.config
 C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\appsettings.Development.json
 C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\appsettings.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.deps.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.runtimeconfig.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\appsettings.Development.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\appsettings.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.deps.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.runtimeconfig.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\appsettings.Development.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\appsettings.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.deps.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Amadeus Cloud Reporting Back-end.runtimeconfig.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\appsettings.Development.json
-C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\Publish\AmadeusCloudReportingAPI\appsettings.json
 C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Amadeus Cloud Reporting Back-end.dll
 C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Amadeus Cloud Reporting Back-end.runtimeconfig.json
 C:\Users\Ron\Documents\GitHub\Amadeus-Cloud-Reporting\back-end\obj\Release\net5.0\PubTmp\Out\Amadeus Cloud Reporting Back-end.pdb

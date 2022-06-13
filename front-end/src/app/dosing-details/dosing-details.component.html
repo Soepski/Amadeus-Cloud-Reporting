@@ -3,7 +3,70 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.css" />
 </head>
 
-<!-- <div class="wrapper"> -->
+<table style="width: 100%; margin-right: 10%; margin-left: 0%">
+  <tr>
+    <td>
+      <!--buttons-->
+      <div class="buttonarea">
+        <div class="modalbuttonfilter">
+          <button class="btn btn-outline-primary" (click)="open(content)">Adjust filter</button>
+        </div>
+        <div class="modalbuttonsorting">
+          <button class="btn btn-outline-primary" (click)="open(sort)">Adjust sorting</button>
+        </div>
+      </div>
+    </td>
+    <td rowspan="2">
+      <!--ID table-->
+      <div class="form-group first" *ngIf="records" style="overflow-y: auto; height: 170px">
+        <table class="idstable">
+          <th>ID</th><th>Article</th><th>Dosing type</th><th>Setpoint</th><th>Actual</th>
+          <tr *ngFor="let record of records">
+              <td>{{record.proportioningrecordDbid}}</td>
+              <td>{{record.articleName}}</td>
+              <td>{{record.dosingtype}}</td>
+              <td>{{record.requestedamount}}</td>
+              <td>{{record.actualamount}}</td>
+              <td><button class="btnsm btn-primary" (click)="onChangeID(record.proportioningrecordDbid)">Preview dosing</button></td>
+          </tr>
+        </table>
+      </div>
+      <div *ngIf="records">
+        <span style="font-weight:bold;" >{{records!.length}}</span> shown out of <span style="font-weight:bold;">{{totalPropCount}}</span>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <!--stat table-->
+      <div class="col-12" *ngIf="loggings">
+        <table class="stattable">  
+          <th>Type of dosing</th><th>Setpoint</th><th>Accuracy</th>
+          <tr>
+            <td>{{typeofdosing}}</td>
+            <td>{{setpoint}}</td>
+            <td>{{accuracy}}</td>
+            </tr>
+            <th>Dosed weight</th><th>Max</th><th>Min</th><th>Time</th>
+            <tr>
+            <td>{{dosedweight}}</td>
+            <td>{{setpointMax}}</td>
+            <td>{{setpointMin}}</td>
+            <td>{{time}}s</td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <div echarts [options]="ChartOptions" class="demo-chart"></div>
+    </td>
+  </tr>
+</table>
+
+
+<!-- <div class="wrapper">
   <div class="container">
     <div class="row">
 
@@ -21,7 +84,7 @@
         </div>
       </div>
 
-      <!--Dosing ID table-->
+      Dosing ID table
       <div class="col-6">
         <div class="form-group first" *ngIf="records" style="overflow-y: auto; height: 170px">
           <table class="idstable">
@@ -36,12 +99,14 @@
             </tr>
           </table>
         </div>
+        <div *ngIf="records">
         <span style="font-weight:bold;" >{{records!.length}}</span> shown out of <span style="font-weight:bold;">{{totalPropCount}}</span>
+      </div>
       </div>
       
     </div>
 
-    <!--Stat table-->
+    Stat table
     <div class="row">
       <div class="col-12" *ngIf="loggings">
         <table class="stattable">  
@@ -58,13 +123,12 @@
         </table>
       </div>
     </div>
-  </div>
+  </div> -->
 
 
-
-<div class="col-md-12" class="chart">
+<!-- <div class="col-lg-12" class="chart">
   <div echarts [options]="ChartOptions" class="demo-chart"></div>
-</div>
+</div> -->
 
 <ng-template #content let-modal>
   <div class="modal-header">
